@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="jumbo">
+		<h2>Welcome to project Faro</h2>
+		<h3>This is the home page for project Faro</h3>	
+	</div>
+	<form class="form_block" action="{{ url_for('home') }}" method=post>
+		{{ form.hidden_tag() }}
+		
+		{% for message in form.email.errors %}
+		<div class="flash">{{ message }}</div>
+		{% endfor %}
+		{{ form.email.label }}
+		{{ form.email }}
+		
+		{% for message in form.password.errors %}
+		<div class="flash">{{ message }}</div>
+		{% endfor %}
+		{{ form.password.label }}
+		{{ form.password }}
+		
+		{{ form.submit }}
+	</form> 
+{% endblock %}
+
