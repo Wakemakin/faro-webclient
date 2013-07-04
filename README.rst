@@ -1,5 +1,9 @@
 Faro Web Client
 ===============
 
-This repository represents project Faro's front end web client.
+Web client for Faro.
+
+Address
+-------
+    http://166.78.165.173:8080/
 
