@@ -23,6 +23,7 @@ Follow steps below to deploy Faro web client for local development:
 4.) Run client::
 
   . venv/bin/acitvate #(do step if not activated)
+  cd faro-webclient
   python initiate.py
   
 5.) Test client by opening url http://0.0.0.0:5000 in a browser.
