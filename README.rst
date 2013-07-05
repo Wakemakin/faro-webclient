@@ -43,7 +43,8 @@ Follow steps below to deploy Faro web client for local development:
   cd faro-webclient
   python initiate.py
   
-6.) Test client by opening url http://localhost:5000 in a browser.
+6.) Test client by opening url http://localhost:5000 in a browser.  Now test and make sure database is up
+and running with url http://localhost:5000/testdb.  The browser should display: "Database is up and running."
 
 Updating Server
 ---------------
