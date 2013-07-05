@@ -9,7 +9,7 @@ Follow steps below to deploy Faro web client for local development:
 
 1.) Create a project directory that will contain the Faro web client.
   
-2.) CD into project and clone github repo::
+2.) CD into project directory and clone github repo::
 
   git clone https://github.com/Wakemakin/faro-webclient.git
   
@@ -20,13 +20,29 @@ Follow steps below to deploy Faro web client for local development:
   . venv/bin/activate
   pip install -r faro-webclient/requirements/local.txt
   
-4.) Run client::
+4.) Install and configure MySQL::
+
+  sudo apt-get install mysql-server mysql-client
+  mysql -u root -p
+  CREATE DATABASE development;
+  CREATE TABLE users (
+    uid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    firstname VARCHAR(100) NOT NULL,
+    lastname VARCHAR(100) NOT NULL,
+    email VARCHAR(120) NOT NULL UNIQUE,
+    pwdhash VARCHAR(100) NOT NULL
+  );
+  CREATE USER 'faro'@'localhost' IDENTIFIED BY 'passwd';
+  GRANT ALL PRIVILEGES ON development.* TO 'faro'@'localhost';
+  exit
+  
+5.) Run client::
 
   . venv/bin/acitvate #(do step if not activated)
   cd faro-webclient
   python initiate.py
   
-5.) Test client by opening url http://localhost:5000 in a browser.
+6.) Test client by opening url http://localhost:5000 in a browser.
 
 Updating Server
 ---------------
