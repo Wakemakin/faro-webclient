@@ -16,7 +16,7 @@ Follow steps below to deploy Faro web client for local development:
 3.) Setup virtualenv::
 
   pip install virtualenv #(do step if not installed)
-  virtualenv env
+  virtualenv venv
   . venv/bin/activate
   pip install -r faro-webclient/requirements/local.txt
   
