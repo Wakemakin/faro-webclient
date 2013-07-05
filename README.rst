@@ -1,15 +1,35 @@
 Faro Web Client
 ===============
 
-Faro web client can be found in a production like enviornment at http://166.78.165.173:8080.
+Faro web client can be found in a production like environment at http://166.78.165.173:8080.
 
 Local Setup
 -----------
-Run the following to deploy Faro web client for local development:
+Follow steps below to deploy Faro web client for local development:
+
+1.) Create a project directory that will contain the Faro web client.
+  
+2.) CD into project and clone github repo::
+
+  git clone https://github.com/Wakemakin/faro-webclient.git
+  
+3.) Setup virtualenv::
+
+  pip install virtualenv #(do step if not installed)
+  virtualenv env
+  . venv/bin/activate
+  pip install -r faro-webclient/requirements/local.txt
+  
+4.) Run client::
+
+  . venv/bin/acitvate #(do step if not activated)
+  python initiate.py
+  
+5.) Test client by opening url http://0.0.0.0:5000 in a browser.
 
 Updating Server
 ---------------
-When local code is ready for production enviornment testing, it will need to be pushed to the server.
+When local code is ready for production environment testing, it will need to be pushed to the server.
 Do the following to make this happen:
 
 1.) Make sure local code has been committed to git repo::
@@ -27,7 +47,7 @@ Do the following to make this happen:
   sudo service apache2 reload
   
 After following those steps, open up a browser and visit the following url http://166.78.165.173:8080 to 
-view the changes.
+view changes.
 
 
 
