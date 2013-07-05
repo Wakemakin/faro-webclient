@@ -17,4 +17,4 @@ mail.init_app(app)
 from models import db
 db.init_app(app)
 
-import webframe.routes
+import faro.routes

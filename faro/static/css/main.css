@@ -40,7 +40,6 @@ header {
  
 header h1.logo {
   margin: 0;
-  margin-top: 2px;
   font-size: 1.7em;
   text-transform: uppercase;
   float: left;
@@ -54,11 +53,6 @@ header .logo a {
 /*
  * Center the body content
  */
-  
-.container {
-  width: 940px;
-  margin: 0 auto;
-}
 
 .left {
 	text-align: left;

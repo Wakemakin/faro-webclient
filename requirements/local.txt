@@ -1,0 +1,3 @@
+#Local: Dependencies required for local setup enviornment
+
+-r base.txt #base dependencies

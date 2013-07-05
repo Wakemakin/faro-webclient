@@ -1,4 +1,4 @@
-from webframe import app
+from faro import app
 from flask import render_template, request, flash, session, redirect, url_for
 from forms import ContactForm, SignupForm, SigninForm
 from flask.ext.mail import Message, Mail
