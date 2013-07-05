@@ -25,6 +25,7 @@ Follow steps below to deploy Faro web client for local development:
   sudo apt-get install mysql-server mysql-client
   mysql -u root -p
   CREATE DATABASE development;
+  USE development;
   CREATE TABLE users (
     uid INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     firstname VARCHAR(100) NOT NULL,
