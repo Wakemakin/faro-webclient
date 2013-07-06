@@ -45,7 +45,7 @@ assume you are using a linux distribution with python 2.7.x installed.
   python initiate.py
   
 With the python server running, open up http://localhost:5000 in a browser.  The Faro homepage should be
-loaded at this point.  There is one last thing to check to make sure the local project is configured
+loaded at this point.  There is one last thing to check to make sure your local project is configured
 correctly.  Type http://localhost:5000/testdb in your browser.  If a page comes up displaying  "Database 
 is up and running", your local project is all set.  If not, check your settings or ask me for help (Dennis).
 
