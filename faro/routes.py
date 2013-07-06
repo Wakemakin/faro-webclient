@@ -41,9 +41,9 @@ def contact():
 @app.route('/testdb')
 def testdb():
 	if db.session.query("1").from_statement("SELECT 1").all():
-		return 'Database is up and running.'
+		return render_template('database.html', works=True)
 	else:
-		return 'Something is broken, check configuration.'
+		return render_template('database.html', works=False)
 		
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():

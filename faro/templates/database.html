@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+	<div class="row">
+		<div class="span10 offset1">
+			<h2 class="left">Database</h2>
+			{% if works %}
+			<h3 class="left">Testing => Database is up and running...</h3>
+			{% else %}
+			<h3 class="left">Testing => Database down! Check configurations...</h3>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
