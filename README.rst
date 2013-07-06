@@ -5,9 +5,10 @@ Faro web client can be found in a production like environment at http://166.78.1
 
 Local Setup
 -----------
-Follow steps below to deploy Faro web client for local development:
+Follow steps below to deploy Faro web client for local development. Note: These steps
+assume you are using a linux distribution with python 2.7.x installed.
 
-1.) Create a project directory that will contain the Faro web client.
+1.) Create a project directory that will contain the Faro web client::
   
   mkdir <directory name>
   cd <directory name>
