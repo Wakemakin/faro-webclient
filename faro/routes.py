@@ -82,13 +82,13 @@ def signin():
 	
 	if request.method == 'POST':
 		if form.validate() == False:
-			return render_template('signin.html', form=form)
+			return render_template('home.html', form=form)
 		else:
 			session['email'] = form.email.data
 			return redirect(url_for('profile'))
 			
 	elif request.method == 'GET':
-		return render_template('signin.html', form=form)
+		return render_template('home.html', form=form)
 		
 @app.route('/signout')
 def signout():
