@@ -4,6 +4,8 @@
 		<h2>Welcome to project Faro</h2>
 		<h3>This is the home page for project Faro</h3>	
 	</div>
+{% if not sessioned %}
 	{% include 'widgets/signin_block.html' %}
+{% endif %}
 {% endblock %}
 
