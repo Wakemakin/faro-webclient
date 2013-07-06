@@ -9,18 +9,18 @@ Follow steps below to deploy Faro web client for local development:
 
 1.) Create a project directory that will contain the Faro web client.
   
-2.) CD into project directory and clone github repo::
-
+  mkdir <directory name>
+  cd <directory name>
   git clone https://github.com/Wakemakin/faro-webclient.git
   
-3.) Setup virtualenv::
+2.) Setup virtualenv in project directory::
 
   pip install virtualenv
   virtualenv venv
   . venv/bin/activate
   pip install -r faro-webclient/requirements/local.txt
   
-4.) Install and configure MySQL::
+3.) Install and configure MySQL::
 
   sudo apt-get install mysql-server mysql-client
   mysql -u root -p
@@ -37,21 +37,23 @@ Follow steps below to deploy Faro web client for local development:
   GRANT ALL PRIVILEGES ON development.* TO 'faro'@'localhost';
   exit
   
-5.) Run client::
+4.) Run client::
 
   . venv/bin/acitvate #(do step if not activated)
   cd faro-webclient
   python initiate.py
   
-6.) Test client by opening url http://localhost:5000 in a browser.  Now test and make sure database is up
-and running with url http://localhost:5000/testdb.  The browser should display: "Database is up and running."
+With the python server running, open up http://localhost:5000 in a browser.  The Faro homepage should be
+loaded at this point.  There is one last thing to check to make sure the local project is configured
+correctly.  Type http://localhost:5000/testdb in your browser.  If a page comes up displaying  "Database 
+is up and running", your local project is all set.  If not, check your settings or ask me for help (Dennis).
 
 Updating Server
 ---------------
-When local code is ready for production environment testing, it will need to be pushed to the server.
-Do the following to make this happen:
+When local code is ready for production environment, it will need to be pushed to the server.
+To make this happen, do the following:
 
-1.) Make sure local code has been committed to git repo::
+1.) Make sure local code has been committed to git repo first::
   
   git push
     
