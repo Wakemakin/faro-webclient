@@ -15,7 +15,7 @@ def home():
 			return render_template('home.html', form=form)
 		else:
 			session['email'] = form.email.data
-			return redirect(url_for('profile'))
+			return redirect(url_for('dash'))
 			
 	elif request.method == 'GET':
 		return render_template('home.html', form=form)
