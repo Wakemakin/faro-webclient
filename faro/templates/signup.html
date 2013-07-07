@@ -2,7 +2,7 @@
 
 {% block content %}
 	<div class="row">
-		<div class="span10 offset2">
+		<div class="span4 offset2">
 			<h2 class="left">Sign Up</h2>
 			<form action="{{ url_for('signup') }}" method=post>
 				{{ form.hidden_tag() }}
@@ -26,7 +26,7 @@
 				{% endfor %}
 				{{ form.password.label }}
 				{{ form.password }}
-				{{ form.submit }}
+				{{ form.submit(class_="btn btn-primary") }}
 			</form>
 		</div>
 	</div>

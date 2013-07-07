@@ -2,7 +2,7 @@
 
 {% block content %}
 	<div class="row">
-		<div class="span10 offset2">
+		<div class="span4 offset2">
 			<h2 class="left">Contact</h2>
 			{% if success %}
 			<p>Thank you for your message. We'll get back to you shortly.</p>
@@ -29,7 +29,8 @@
 				{% endfor %}
 				{{ form.message.label }}
 				{{ form.message }}
-				{{ form.submit }}
+				
+				{{ form.submit(class_="btn btn-primary") }}
 			</form>
 		{% endif %}
 		</div>

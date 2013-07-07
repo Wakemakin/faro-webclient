@@ -11,7 +11,7 @@ body {
  */
  .menu {
 	float: right;
-	margin-top: 8px; 
+	margin-top: 10px; 
  }
  
  .menu li {
@@ -33,13 +33,13 @@ body {
   
 header {
   background-color: #302e2f;
-  height: 35px;
+  height: 40px;
   width: 100%;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
 }
  
 header h1.logo {
-  margin: 0;
+  margin-top: 1px;
   font-size: 1.7em;
   text-transform: uppercase;
   float: left;
@@ -140,7 +140,8 @@ form textarea#message {
   padding: 5px;
   font-size: 1.1em;
 }
- 
+
+/*
 form input#submit {
   margin-top: 10px;
   display: block;
@@ -171,6 +172,10 @@ form input#submit:hover{
   background-image: -ms-linear-gradient(top, #dbdbdb, #cccccc);
   background-image: -o-linear-gradient(top, #dbdbdb, #cccccc);
   background-image: linear-gradient(top, #dbdbdb, #cccccc);filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#dbdbdb, endColorstr=#cccccc);
+} */
+
+.btn {
+	margin-top: 10px;
 }
 
 /*
