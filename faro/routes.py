@@ -110,9 +110,6 @@ def signout():
 	session.pop('email', None)
 	return redirect(url_for('home'))
 	
-if __name__ == '__main__':
-	app.run(debug=True)
-	
 @app.route('/testdb')
 def testdb():
 	if db.session.query("1").from_statement("SELECT 1").all():
@@ -120,8 +117,12 @@ def testdb():
 	else:
 		return render_template('database.html', works=False)
 
+@app.route('/poster')
+def poster():
+	return render_template('poster.html')
 
-
+if __name__ == '__main__':
+	app.run(debug=True)
 
 
 
