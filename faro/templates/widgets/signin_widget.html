@@ -1,4 +1,4 @@
-<form class="form_block" action="{{ url_for('signin') }}" method=post>
+<form class="form_block" action="{{ url_for('home') }}" method=post>
 	{{ form.hidden_tag() }}
 	
 	{% for message in form.email.errors %}

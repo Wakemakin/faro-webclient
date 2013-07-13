@@ -4,20 +4,21 @@
 	<div class="row-fluid">
 		<div class="span4">
 			<!-- Left Sidebar Content -->
-		</div>
-		<div class="span4">
-			<!-- Body Content -->		
-			<h2>Poster</h2>
+			<h2 class="left">Poster App</h2>	
 			<section id="fetch">
       			<input type="text" placeholder="Enter a movie title" id="term" />
-      			<button id="search">Find me a poster</button>
-   				</section>
+   				<button class="btn btn-primary" id="search">Find Poster!</button>
+   			</section>
+		</div>
+		<div class="span4">
+			<!-- Body Content -->
    			<section id="poster">
    			</section>
 		</div>
 		<div class="span4">
 			<!-- Right Sidebar Content -->
 		</div>
+		<script src="{{ url_for('static', filename='js/tmdb-api.wrapper.js') }}"></script>
 	</div>
 </div>
 {% endblock %}
