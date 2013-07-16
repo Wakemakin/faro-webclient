@@ -1,20 +1,27 @@
 {% extends "layout.html" %}
 {% block content %}
-<div class="container-fluid">
-	<div class="row-fluid">
-		<div class="span2">
-			<!-- Left Sidebar Content -->
-		<h2 class="GET">GET</h2>
-		<h2 class="push2">Push 2</h2>
-		<h2 class="push3">Push 3</h2>
-		</div>
-		<div class="span8">
-			<!-- Body Content -->			
+<div class="container">
+	<div class="row">
+		<div class="span12">
 			<h2>Dashboard</h2>
 		</div>
-		<div class="span2">
+		<div class="span3">
+			<!-- Left Sidebar Content -->
+   			<ul class="nav nav-tabs nav-stacked">
+      			<li class="active"><a href="#viewEvents" data-toggle="tab">View Events</a></li>
+      			<li><a href="#createEvents" data-toggle="tab">Create Events</a></li>
+          	</ul>
+		</div>
+       	<div class="span8">
 			<!-- Right Sidebar Content -->
-			Right Bar
+			<div class="tab-content">
+    			<div class="tab-pane active" id="viewEvents">
+      				<p>I'm View Events.</p>
+   			 	</div>
+    			<div class="tab-pane" id="createEvents">
+      				<p>I'm Create Events.</p>
+    			</div>
+			</div>
 		</div>
 	</div>
 </div>

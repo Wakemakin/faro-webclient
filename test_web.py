@@ -9,8 +9,8 @@ class PageTest(unittest.TestCase):
         self.app = app.test_client()
            
     def test_Home(self):
-        with app.test_request_context('/homes'):
-            assert request.path == '/homes'
+        rv = self.app.get('/')
+        self.assertEquals(rv, '<Response streamed [200 OK]>')
         
 if __name__ == '__main__':
     unittest.main()

@@ -3,7 +3,8 @@ $(document).ready(function() {
 	$(".GET").click(function(event) {
 		var url = "http://www.jibely.com:5001/api/users";
 		$.getJSON(url + "?callback=?", function(users){
-			console.log(users.total);
+			console.log(users);
+			console.log(users.objects[0]);
 		});
 	});
 	
