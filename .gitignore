@@ -1,6 +1,4 @@
 *~
 *.pyc
-.project
-.settings
-.env
-.pydevproject
+.*
+!/.gitignore
