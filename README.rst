@@ -1,7 +1,7 @@
 Faro Web Client
 ===============
 
-Faro web client can be found in a production like environment at http://166.78.165.173:8080.
+The Faro web client can be found in a production like environment at http://166.78.165.173:8080.
 
 Local Setup
 -----------
