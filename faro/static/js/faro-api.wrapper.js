@@ -8,14 +8,41 @@ $(document).ready(function() {
 		});
 	});
 	
-	$(".push2").click(function(event) {
-		alert("Push 2");
-		console.log("Push 2");
+	$(".CORS_GET").click(function(event) {
+		$.ajax({
+			     type: 'GET',
+		          url: 'http://www.jibely.com:5001/api/users/User2',
+		  contentType: 'text/plain',
+			xhrFields: { withCredentials: false },
+			  headers: { },
+			  success: function(users) { console.log(users); },
+			    error: function() { console.log("An error occured."); }
+		})
 	});
 	
-	$(".push3").click(function(event) {
-		alert("Push 3");	
-		console.log("Push 3");
+	$(".CORS_POST").click(function(event) {
+		$.ajax({
+			     type: 'POST',
+		          url: 'http://www.jibely.com:5001/api/users',
+		         data: '{"username":"User3"}',
+		  contentType: 'text/plain',
+			xhrFields: { withCredentials: false },
+			  headers: { },
+			  success: function(users) { console.log(users); },
+			    error: function() { console.log("An error occured."); }
+		})
 	});
-			
+	
+	$(".CORS_DELETE").click(function(event) {
+		$.ajax({
+			     type: 'DELETE',
+			 datatype: 'script',
+		          url: 'http://www.jibely.com:5001/api/users/User3',
+			xhrFields: { withCredentials: false },
+			  success: function(users) { console.log(users); },
+			    error: function() { console.log("An error occured in delete."); }
+		})
+	});
+	
+	
 });
