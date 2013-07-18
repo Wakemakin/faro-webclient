@@ -1,5 +1,73 @@
 $(document).ready(function() {
 	
+	/**********************************************
+	 *                  MODELS
+	 **********************************************/
+	
+	var url = 'http://www.jibely.com:5001';
+	
+	UserModel = Backbone.Model.extend({
+		
+		urlRoot: url + '/api/users',
+		defaults: {
+					  id: '',
+			    username: '',
+			  first_name: '',
+			   last_name: '',
+			      events: '',
+		    date_created: ''
+		}
+	});
+	
+	EventModel = Backbone.Model.extend({
+		
+		urlRoot: url + '/api/events',
+		defaults: {
+			          id: '',
+			        name: '',
+			       owner: '',
+			    owner_id: '',
+			   parent_id: '',
+			 is_template: '',
+			 description: '',
+			date_created: ''
+		}
+	});
+	
+	TemplateModel = Backbone.Model.extend({
+		
+		urlRoot: url + '/api/templates',
+		defaults: {
+			          id: '',
+			       title: '',
+			       owner: '',
+     		 description: '',
+           template_type: '',
+			date_created: ''
+		}
+	});
+	
+	
+	/**********************************************
+	 *                  VIEWS
+	 **********************************************/
+	
+	/**********************************************
+	 *                COLLECTIONS
+	 **********************************************/
+	
+	/**********************************************
+	 *                 ROUTERS
+	 **********************************************/
+	
+	
+	
+	
+
+	/**
+	 * CORS TESTING - REMOVE WHEN DONE
+	 */	
+	
 	$(".GET").click(function(event) {
 		var url = "http://www.jibely.com:5001/api/users";
 		$.getJSON(url + "?callback=?", function(users){
