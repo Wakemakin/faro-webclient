@@ -24,7 +24,7 @@ $(document).ready(function() {
 		$.ajax({
 			     type: 'POST',
 		          url: 'http://www.jibely.com:5001/api/users',
-		         data: '{"username":"User3"}',
+		         data: '{"username":"User6"}',
 		  contentType: 'text/plain',
 			xhrFields: { withCredentials: false },
 			  headers: { },
@@ -36,9 +36,9 @@ $(document).ready(function() {
 	$(".CORS_DELETE").click(function(event) {
 		$.ajax({
 			     type: 'DELETE',
-			 datatype: 'script',
-		          url: 'http://www.jibely.com:5001/api/users/User3',
+		          url: 'http://www.jibely.com:5001/api/users/User4',
 			xhrFields: { withCredentials: false },
+			contentType: "application/json",
 			  success: function(users) { console.log(users); },
 			    error: function() { console.log("An error occured in delete."); }
 		})
