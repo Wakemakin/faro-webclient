@@ -10,12 +10,12 @@ $(document).ready(function() {
 		
 		urlRoot: url + '/api/users',
 		defaults: {
-					  id: '',
+                      id: '',
 			    username: '',
 			  first_name: '',
 			   last_name: '',
 			      events: '',
-		    date_created: ''
+            date_created: ''
 		}
 	});
 	
@@ -41,9 +41,9 @@ $(document).ready(function() {
 			          id: '',
 			       title: '',
 			       owner: '',
-     		 description: '',
+             description: '',
            template_type: '',
-			date_created: ''
+            date_created: ''
 		}
 	});
 	
