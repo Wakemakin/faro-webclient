@@ -4,11 +4,11 @@ $(document).ready(function() {
 	 *                  MODELS
 	 **********************************************/
 	
-	var url = 'http://www.jibely.com:5001';
+	var URL = 'http://www.jibely.com:5001';
 	
 	UserModel = Backbone.Model.extend({
 		
-		urlRoot: url + '/api/users',
+		urlRoot: URL + '/api/users',
 		defaults: {
                       id: '',
 			    username: '',
@@ -21,7 +21,7 @@ $(document).ready(function() {
 	
 	EventModel = Backbone.Model.extend({
 		
-		urlRoot: url + '/api/events',
+		urlRoot: URL + '/api/events',
 		defaults: {
 			          id: '',
 			        name: '',
@@ -36,7 +36,7 @@ $(document).ready(function() {
 	
 	TemplateModel = Backbone.Model.extend({
 		
-		urlRoot: url + '/api/templates',
+		urlRoot: URL + '/api/templates',
 		defaults: {
 			          id: '',
 			       title: '',
@@ -60,8 +60,18 @@ $(document).ready(function() {
 	 *                 ROUTERS
 	 **********************************************/
 	
-	
-	
+	// RUN THINGS AND TEST
+	var user = new UserModel({id: "e9ae6da0-e9bd-11e2-91bd-bc764e10da35"});
+	user.fetch({ 
+		
+		error: function() {
+			console.log("There was an error in UserModel fetch()");
+		},
+		
+		success: function(user) { 
+			console.log(user);
+		} 
+	});
 	
 
 	/**
@@ -79,10 +89,8 @@ $(document).ready(function() {
 	$(".CORS_GET").click(function(event) {
 		$.ajax({
 			     type: 'GET',
-		          url: 'http://www.jibely.com:5001/api/users/User2',
+		          url: 'http://www.jibely.com:5001/api/users/User4',
 		  contentType: 'text/plain',
-			xhrFields: { withCredentials: false },
-			  headers: { },
 			  success: function(users) { console.log(users); },
 			    error: function() { console.log("An error occured."); }
 		})
