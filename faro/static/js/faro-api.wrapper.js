@@ -4,7 +4,14 @@ $(document).ready(function() {
 	 *                  MODELS
 	 **********************************************/
 	
-	var URL = 'http://www.jibely.com:5001';
+	URL = 'http://www.jibely.com:5001';
+	
+	/**
+	 * Backbone Model Overrides
+	 **/
+	Backbone.Model.prototype.parse = function(response) {
+		//console.log(response);
+	}
 	
 	UserModel = Backbone.Model.extend({
 		
@@ -16,6 +23,14 @@ $(document).ready(function() {
 			   last_name: '',
 			      events: '',
             date_created: ''
+		},
+		initialize: function () {
+			var that = this;
+
+			$.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+			//options.crossDomain ={ crossDomain: true };
+			options.xhrFields = { withCredentials: true };
+			});
 		}
 	});
 	
@@ -62,7 +77,8 @@ $(document).ready(function() {
 	
 	// RUN THINGS AND TEST
 	var user = new UserModel({id: "e9ae6da0-e9bd-11e2-91bd-bc764e10da35"});
-	user.fetch({ 
+	user.save();
+/*	user.fetch({ 
 		
 		error: function() {
 			console.log("There was an error in UserModel fetch()");
@@ -71,7 +87,7 @@ $(document).ready(function() {
 		success: function(user) { 
 			console.log(user);
 		} 
-	});
+	}); */
 	
 
 	/**
