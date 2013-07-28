@@ -1,5 +1,6 @@
 function UserModel(username, firstname, lastname) {
 	var self = this;
+	
 	self.username = username;
 	self.firstname = firstname;
 	self.lastname = lastname;
@@ -8,9 +9,21 @@ function UserModel(username, firstname, lastname) {
 }
 
 function UserViewModel() {
+	var self = this;
 	
+	self.users = ko.observable([]);
+	
+	self.addUser = function(username, firstname, lastname) {
+		self.users.push(new UserModel(username, firstname, lastname));
+	};
+	self.removeUser = function(id) {
+		self.users.remove(id);
+	}	
 }
 
+ko.applyBindings(new UserViewModel());
+
+// TESTING Faro API
 
 $(document).ready(function() {
 	
