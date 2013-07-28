@@ -5,7 +5,6 @@ $(document).ready(function() {
 	 */
 	
 	rootURL = 'http://api.jibely.com';
-	//rootURL = 'http://jibely.com:5001/api';
 	
 	function Save(json) {
 		$.ajax({
@@ -18,7 +17,7 @@ $(document).ready(function() {
 		});
 	}
 	
-	function Load(id) 
+	function Load(id) {
 				
 		$.ajax({
 			type:        'GET',
