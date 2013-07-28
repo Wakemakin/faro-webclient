@@ -4,37 +4,71 @@ $(document).ready(function() {
 	
 	rootURL = 'http://api.jibely.com';
 
-	function User(username, firstname, lastname) {
+	function User(data) {
 		var self = this;
 		
-		self.username = username;
-		self.firstname = firstname;
-		self.lastname = lastname;
-		self.uuid = '';
-		self.datecreated = '';
+		self.username = ko.observable(data.username);
+		self.firstname = ko.observable(data.first_name);
+		self.lastname = ko.observable(data.last_name);
+		self.uuid = ko.observable(data.id);
+		self.datecreated = ko.observable(data.date_created);
 	}
 
 	function UsersViewModel() {
 		var self = this;
 		
 		self.users = ko.observableArray([]);
+		self.newusername = ko.observable();
+		self.newfirstname = ko.observable();
+		self.newlastname = ko.observable();
 		
-		self.addUser = function(username, firstname, lastname) {
-			self.users.push(new User("", "", ""));
+		self.addUser = function() {
+			user = new User({ username: this.newusername(), first_name: this.newfirstname(), last_name: this.newlastname() });
+			self.newusername("");
+			self.newfirstname("");
+			self.newlastname("");
+			self.users.push(user);
+			
+			// change later to model
+			user_string = '"username":"' + user.username() + '"';
+			first_string = '"first_name":"' + user.firstname() + '"';
+			last_string = '"last_name":"' + user.lastname() + '"';
+			json = '{' + user_string + ', ' + first_string + ', ' + last_string + '}';
+			$.ajax({
+				type: 'POST',
+				url: rootURL + '/users',
+				data: json,
+				contentType: 'text/plain', 
+				success: function(data, textStatus, request) { 
+					console.log("Saved, Status: " + request.status); 
+					$.ajax({
+						type: 'GET',
+						url: rootURL + '/users/' + user.username(),
+						contentType: 'text/plain',
+						dataType: 'json',
+						success: function(data, textStatus, request) { 
+							item = data.object;
+							user.uuid(item.id);
+							user.datecreated(item.date_created);
+						},
+						error: function(request, textStatus) { console.log("Load error occured, Status: " + request.status); }
+					});
+				},
+			    error: function(request, textStatus) { console.log("Save error occured, Status: " + request.status); }
+			});
 		};
-		self.removeUser = function(id) {
-			self.users.remove(id);
+		self.removeUser = function(user) {
+			self.users.remove(user);
+			Delete(user.uuid);
 		}	
-		self.editUser = function(id) {
-			user = self.users()[id];
+		self.editUser = function(user) {
+			user.modify = true;
 		}
 		
-		// populate users array
+		// populate users array on load
 		$.getJSON(rootURL + "/users", function(data) {
 			var mappedUsers = $.map(data.objects, function(item) {
-				user = new User(item.username, item.first_name, item.last_name);
-				user.uuid = item.id;
-				user.datecreated = item.date_created;
+				user = new User(item);
 				return user;
 			});
 			self.users(mappedUsers);
@@ -52,8 +86,20 @@ $(document).ready(function() {
 			url:         rootURL + '/users',
 			data:        json,
 			contentType: 'text/plain', 
-			success:     function(data, textStatus, request) { console.log("Saved, Status: " + request.status); },
+			success:     function(data, textStatus, request) { 
+				console.log("Saved, Status: " + request.status); 
+				
+			},
 		    error:       function(request, textStatus) { console.log("Save error occured, Status: " + request.status); }
+		});
+	}
+	
+	function Delete(id) {
+		$.ajax({
+			type:    'DELETE',
+			url:     rootURL + '/users/' + id,
+			success: function(data, textStatus, request) { console.log("Delete successful, Status: " + request.status); },
+			error:   function(request, textStatus) { console.log("Delete error occured, Status: " + request.status); }
 		});
 	}
 	
@@ -77,15 +123,6 @@ $(document).ready(function() {
 			$('.id_label').text(user.id);
 			$('.date_label').text(user.date_created);
 		}
-	}
-	
-	function Delete(id) {
-		$.ajax({
-			type:    'DELETE',
-			url:     rootURL + '/users/' + id,
-			success: function(data, textStatus, request) { console.log("Delete successful, Status: " + request.status); },
-			error:   function(request, textStatus) { console.log("Delete error occured, Status: " + request.status); }
-		});
 	}
 	
 	

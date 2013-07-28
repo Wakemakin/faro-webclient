@@ -14,24 +14,35 @@
 	</div>
 	<div class="row">
 		<div class="span12">
-			<h3 class="left">Number of Users (<span data-bind="text: users().length"></span>)</h3>
-			<table class="table table-striped">
-				<thead><tr>
-					<th>#</th><th>UUID</th><th>User Name</th><th>First Name</th><th>Last Name</th><th>Created</th>
-				</tr></thead>
-				<tbody data-bind="foreach: users">
-					<td></td>
-					<td data-bind="text: uuid"></td>
-					<td data-bind="text: username"></td>
-					<td data-bind="text: firstname"></td>
-					<td data-bind="text: lastname"></td>
-					<td data-bind="text: datecreated"></td>
-					<td><button data-bind="click: $root.removeUser">Delete</button></td>
-				</tbody>
-			</table>
-			<button data-bind="click: addUser">Create</button>
+			<div class="form-horizontal">
+				<input type="text" data-bind="value: $root.newusername" placeholder="User Name"/>
+				<input type="text" data-bind="value: $root.newfirstname" placeholder="First Name"/>
+				<input type="text" data-bind="value: $root.newlastname" placeholder="Last Name"/>
+				<button type="button" class="btn btn-default" data-bind="click: addUser">Create</button>
+			</div>
 		</div>
 	</div>
-	<div class="span12">
+	<div class="row">
+		<div class="span12">
+			<h5 class="left">Number of Users (<span data-bind="text: users().length"></span>)</h5>
+			
+			<table class="table table-striped">
+				<thead><tr>
+					<th>UUID</th><th>User Name</th><th>First Name</th><th>Last Name</th><th>Created</th>
+				</tr></thead>
+				<tbody data-bind="foreach: users">
+					<tr class="form-horizontal">
+						<td data-bind="text: uuid"></td>
+						<td data-bind="text: username"></td>
+						<td data-bind="text: firstname"></td>
+						<td data-bind="text: lastname"></td>
+						<td data-bind="text: datecreated"></td>
+						<td><button type="button" class="btn btn-default" data-bind="click: $root.editUser">Edit</button></td>
+						<td><button type="button" class="btn btn-default" data-bind="click: $root.removeUser">Delete</button></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 {% endblock %}
