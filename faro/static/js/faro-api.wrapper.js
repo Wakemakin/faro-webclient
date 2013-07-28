@@ -1,3 +1,17 @@
+function UserModel(username, firstname, lastname) {
+	var self = this;
+	self.username = username;
+	self.firstname = firstname;
+	self.lastname = lastname;
+	self.uuid = '';
+	self.datecreated = '';
+}
+
+function UserViewModel() {
+	
+}
+
+
 $(document).ready(function() {
 	
 	/**
