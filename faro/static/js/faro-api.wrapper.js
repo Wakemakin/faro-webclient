@@ -11,7 +11,7 @@ function UserModel(username, firstname, lastname) {
 function UserViewModel() {
 	var self = this;
 	
-	self.users = ko.observable([]);
+	self.users = ko.observableArray([new UserModel("Denneh", "Dennis", "Jordan")]);
 	
 	self.addUser = function(username, firstname, lastname) {
 		self.users.push(new UserModel(username, firstname, lastname));
@@ -19,17 +19,28 @@ function UserViewModel() {
 	self.removeUser = function(id) {
 		self.users.remove(id);
 	}	
+	self.editUser = function(id) {
+		user = self.users()[id];
+	}
 }
 
 ko.applyBindings(new UserViewModel());
 
+var ViewModel = function(first, last) {
+    this.firstName = ko.observable(first);
+    this.lastName = ko.observable(last);
+ 
+    this.fullName = ko.computed(function() {
+         return this.firstName() + " " + this.lastName();
+    }, this);
+};
+ 
+ko.applyBindings(new ViewModel("Planet", "Earth"));
+
+/*
 // TESTING Faro API
 
 $(document).ready(function() {
-	
-	/**
-	 * API Wrapper Testing
-	 */
 	
 	rootURL = 'http://api.jibely.com';
 	
@@ -111,4 +122,4 @@ $(document).ready(function() {
 		var json = '{' + uuid_string + '}';
 		Load(uuid);
 	});
-});
+}); */
