@@ -59,7 +59,7 @@ $(document).ready(function() {
 		};
 		self.removeUser = function(user) {
 			self.users.remove(user);
-			Delete(user.uuid);
+			Delete(user.uuid());
 		}	
 		self.editUser = function(user) {
 			user.modify = true;
