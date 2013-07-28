@@ -16,6 +16,7 @@
 					<div class="span10">				
 						<strong><nav><ul class="menu">
 							{% if 'email' in session %}
+							<li><a href="{{ url_for('admin') }}">Admin</a></li>	
 							<li><a href="{{ url_for('dash') }}">Dashboard</a></li>	
 							<li><a href="{{ url_for('profile') }}">Profile</a></li>	
 							<li><a href="{{ url_for('signout') }}">Sign Out</a></li>		

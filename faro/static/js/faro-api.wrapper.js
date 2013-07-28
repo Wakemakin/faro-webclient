@@ -83,7 +83,5 @@ $(document).ready(function() {
 		var uuid_string = '"id":"' + uuid + '"';
 		var json = '{' + uuid_string + '}';
 		Load(uuid);
-		//console.log("load json: " + jsonObject);
-		//$(".user_name_label").text(jsonObject.username);
 	});
 });
