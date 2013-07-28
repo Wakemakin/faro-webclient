@@ -1,49 +1,51 @@
-function UserModel(username, firstname, lastname) {
-	var self = this;
-	
-	self.username = username;
-	self.firstname = firstname;
-	self.lastname = lastname;
-	self.uuid = '';
-	self.datecreated = '';
-}
-
-function UserViewModel() {
-	var self = this;
-	
-	self.users = ko.observableArray([new UserModel("Denneh", "Dennis", "Jordan")]);
-	
-	self.addUser = function(username, firstname, lastname) {
-		self.users.push(new UserModel(username, firstname, lastname));
-	};
-	self.removeUser = function(id) {
-		self.users.remove(id);
-	}	
-	self.editUser = function(id) {
-		user = self.users()[id];
-	}
-}
-
-ko.applyBindings(new UserViewModel());
-
-var ViewModel = function(first, last) {
-    this.firstName = ko.observable(first);
-    this.lastName = ko.observable(last);
- 
-    this.fullName = ko.computed(function() {
-         return this.firstName() + " " + this.lastName();
-    }, this);
-};
- 
-ko.applyBindings(new ViewModel("Planet", "Earth"));
-
-/*
 // TESTING Faro API
 
 $(document).ready(function() {
 	
 	rootURL = 'http://api.jibely.com';
+
+	function User(username, firstname, lastname) {
+		var self = this;
+		
+		self.username = username;
+		self.firstname = firstname;
+		self.lastname = lastname;
+		self.uuid = '';
+		self.datecreated = '';
+	}
+
+	function UsersViewModel() {
+		var self = this;
+		
+		self.users = ko.observableArray([]);
+		
+		self.addUser = function(username, firstname, lastname) {
+			self.users.push(new User("", "", ""));
+		};
+		self.removeUser = function(id) {
+			self.users.remove(id);
+		}	
+		self.editUser = function(id) {
+			user = self.users()[id];
+		}
+		
+		// populate users array
+		$.getJSON(rootURL + "/users", function(data) {
+			var mappedUsers = $.map(data.objects, function(item) {
+				user = new User(item.username, item.first_name, item.last_name);
+				user.uuid = item.id;
+				user.datecreated = item.date_created;
+				return user;
+			});
+			self.users(mappedUsers);
+		});
+	}
+
+	ko.applyBindings(new UsersViewModel(), document.getElementById('#admin'));
+
 	
+	
+	// TESTING Faro API (possible wrappers)
 	function Save(json) {
 		$.ajax({
 			type:        'POST',
@@ -122,4 +124,4 @@ $(document).ready(function() {
 		var json = '{' + uuid_string + '}';
 		Load(uuid);
 	});
-}); */
+}); 
