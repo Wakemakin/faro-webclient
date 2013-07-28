@@ -6,30 +6,30 @@
 			<h2>Dashboard</h2>
 		</div>
 		<div class="span4">
-			<h2 class="GET">GET</h2>
-			<h2 class="CORS_GET">CORS GET</2>
-			<h2 class="CORS_POST">CORS POST</h2>
-			<h2 class="CORS_DELETE">CORS DELETE</h2>
+			<form class="form_block" action="" method="post">
+			<label>User Name</label>
+				<input id="user_name" name="user_name" type="text">
+				<label>First Name</label>
+				<input id="first_name" name="first_name" type="text">
+				<label>Last Name</label>
+				<input id="last_name" name="last_name" type="text">
+				<label>UUID</label>
+				<input id="uuid" name="uuid" type="text">
+				<input class="btn btn-primary" id="create_button" name="submit" type="button" value="Create">
+				<input class="btn btn-primary" id="load_button" name="submit" type="button" value="Load">
+				<input class="btn btn-primary" id="delete_button" name="submit" type="button" value="Delete">
+				<input class="btn btn-primary" id="update_button" name="submit" type="button" value="Update">
+			</form>
 		</div>
-		<!--
-		<div class="span3">
-			<!-- Left Sidebar Content -->
-   	<!--		<ul class="nav nav-tabs nav-stacked">
-      			<li class="active"><a href="#viewEvents" data-toggle="tab">View Events</a></li>
-      			<li><a href="#createEvents" data-toggle="tab">Create Events</a></li>
-          	</ul>
-		</div>
-       	<div class="span8"> -->
-			<!-- Right Sidebar Content -->
-	<!--		<div class="tab-content">
-    			<div class="tab-pane active" id="viewEvents">
-      				<p>I'm View Events.</p>
-   			 	</div>
-    			<div class="tab-pane" id="createEvents">
-      				<p>I'm Create Events.</p>
-    			</div>
+		<div class ="span4">
+			<div class="container form_block">
+				<h3 class="user_name_label">...</h3>
+				<h3 class="first_name_label">...</h3>
+				<h3 class="last_name_label">...</h3>
+				<h3 class="id_label">...</h3>
+				<h3 class="date_label">...</h3>
 			</div>
-		</div> -->
+		</div>
 	</div>
 </div>
 {% endblock %}
