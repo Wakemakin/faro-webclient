@@ -27,7 +27,6 @@ $(document).ready(function() {
 			self.newusername("");
 			self.newfirstname("");
 			self.newlastname("");
-			self.users.push(user);
 			
 			// change later to model
 			user_string = '"username":"' + user.username() + '"';
@@ -47,6 +46,7 @@ $(document).ready(function() {
 						contentType: 'text/plain',
 						dataType: 'json',
 						success: function(data, textStatus, request) { 
+							self.users.push(user);
 							item = data.object;
 							user.uuid(item.id);
 							user.datecreated(item.date_created);
