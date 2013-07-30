@@ -3,6 +3,12 @@
 $(document).ready(function() {
 	
 	rootURL = 'http://api.jibely.com';
+	
+	
+	var userM = new UserModel();
+	console.log(userM);
+	console.log("username: " + userM.username);
+	userM.save();
 
 	function User(data) {
 		var self = this;

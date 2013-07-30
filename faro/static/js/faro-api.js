@@ -26,6 +26,16 @@ function FaroModel() {
 	 * @define {string}
 	 */
 	self.key = ''
+		
+	/**
+	 * Add functions to call when save is done.
+	 */
+	self.saveDone = new Array();
+	
+	/**
+	 * Add functions to call when save fails.
+	 */
+	self.saveFail = new Array();
 	
 	/**
 	 * Saves the model into the database with the
@@ -34,15 +44,29 @@ function FaroModel() {
 	 * @param {string} json: json string
 	 */
 	self.save = function(json) {
-		$.ajax({
+		var jqXHR = $.ajax({
 			type: 'POST',
 			url: self.url,
 			data: json,
-			contentType: 'text/plain', 
-			success: self.saveSuccess(data, textStatus, request),
-		    error: self.saveError(request, textStatus)
+		//	contentType: 'text/plain', 
+		//	success: self.saveSuccess,
+		//  error: self.saveError
 		});
+		parseDone(jqXHR, self.saveDone);
+		parseFail(jqXHR, self.saveFail);
 	};
+	
+	function parseDone(jqXHR, dones) {
+		for (var i = 0; i < dones.length; i++) {
+			jqXHR.done(dones[i]);
+		}
+	}
+	
+	function parseFail(jqXHR, fails) {
+		for (var i = 0; i < fails.length; i++) {
+			jqXHR.fail(fails[i]);
+		}
+	}
 	
 	/**
 	 * Updates the model in the database with the
@@ -144,3 +168,31 @@ function FaroModel() {
 	 */
 	self.removeError = function(request, textStatus, errorThrown) { };
 }
+
+function UserModel() {
+	var self = this;
+	
+	FaroModel.call(self);
+	
+	self.id = 'yo';
+    self.username = 'denneh';
+    self.first_name = 'dennis';
+    self.last_name = 'jor';
+    self.date_created = '';
+    self.events = new Array();
+    
+    // overrides
+    self.key = self.id;
+    self.url = 'http://api.jibely.com/users';
+    var one = function() { alert("Save Error 1!"); };
+    var two = function() { alert("Save Error 2!"); };
+    self.saveFail.push(one);
+    self.saveFail.push(two);
+    //self.saveSuccess = function() { alert("Saved!"); };
+    //self.saveError = function() { alert("Error: Not Saved!"); };
+} 
+
+UserModel.prototype = Object.create(FaroModel.prototype);
+UserModel.prototype.constructor = UserModel;
+
+
