@@ -49,7 +49,7 @@ function FaroModel() {
 	 * Functions can have the following arguments
 	 * passed to them:
 	 * 
-	 * function(data, textStatus, request) { }
+	 * function(jqXHR, textStatus, errorThrown) { }
 	 * @param {object}       jqXHR: jqXHR object
 	 * @param {string}  textStatus: error status
 	 * @param {string} errorThrown: optional exception object
