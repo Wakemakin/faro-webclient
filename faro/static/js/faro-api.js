@@ -12,6 +12,10 @@
 function FaroModel() {
 	var self = this;
 	
+	/******************************************************************
+	 *                       Public Properties
+	 ******************************************************************/
+	
 	/** 
 	 * The url of the resource. 
 	 * */
@@ -23,45 +27,41 @@ function FaroModel() {
 	self.key = '';
 		
 	/**
-	 * Add functions to call for save done event.
-	 * Functions 
+	 * Add functions to call for done events.
+	 * 
+	 * Functions can have the following arguments
+	 * passed to them:
+	 * 
+	 * function(data, textStatus, request) { }
+	 * @param {object}       data: data returned from server
+	 * @param {string} textStatus: status of request
+	 * @param {object}    request: jqXHR object
 	 */
-	self.saveDone = new Array();
-	
-	/**
-	 * Add functions to call for save fail event.
-	 */
-	self.saveFail = new Array();
-			
-	/**
-	 * Add functions to call for update done event.
-	 */
+	 
+	self.saveDone   = new Array();
 	self.updateDone = new Array();
-	
-	/**
-	 * Add functions to call for update fail event.
-	 */
-	self.updateFail = new Array();
-	
-	/**
-	 * Add functions to call for load done event.
-	 */
-	self.loadDone = new Array();
-	
-	/**
-	 * Add functions to call for load fail event.
-	 */
-	self.loadFail = new Array();
-	
-	/**
-	 * Add functions to call for remove done event.
-	 */
+	self.loadDone   = new Array();
 	self.removeDone = new Array();
 	
 	/**
-	 * Add functions to call for remove fail event.
+	 * Add functions to call for fail events.
+	 * 
+	 * Functions can have the following arguments
+	 * passed to them:
+	 * 
+	 * function(data, textStatus, request) { }
+	 * @param {object}       jqXHR: jqXHR object
+	 * @param {string}  textStatus: error status
+	 * @param {string} errorThrown: optional exception object
 	 */
+	self.saveFail   = new Array();
+	self.updateFail = new Array();
+	self.loadFail   = new Array();
 	self.removeFail = new Array();
+	
+	/******************************************************************
+	 *                       Public Methods
+	 ******************************************************************/
 	
 	/**
 	 * Saves model into database.
@@ -123,60 +123,6 @@ function FaroModel() {
 		parseFail(jqXHR, self.reomveFail);
 	};
 	
-	/**
-	 * Override to provide an action on save success.
-	 * 
-	 * @param {object}       data: data returned from server
-	 * @param {string} textStatus: status of request
-	 * @param {object}    request: jqXHR object
-	 */
-	self.saveSuccess = function(data, textStatus, request) { };
-	
-	/**
-	 * Override to provide an action on save error.
-	 *  
-	 * @param {object}       jqXHR: jqXHR object
-	 * @param {string}  textStatus: error status
-	 * @param {string} errorThrown: optional exception object
-	 */
-	self.saveError = function(request, textStatus, errorThrown) { };
-	
-	/**
-	 * Override to provide an action on load success.
-	 *  
-	 * @param {object}       data: data returned from server
-	 * @param {string} textStatus: status of request
-	 * @param {object}    request: jqXHR object
-	 */
-	self.loadSuccess = function(data, textStatus, request) { };
-	
-	/**
-	 * Override to provide an action on load error.
-	 *  
-	 * @param {object}       jqXHR: jqXHR object
-	 * @param {string}  textStatus: error status
-	 * @param {string} errorThrown: optional exception object
-	 */
-	self.loadError = function(request, textStatus, errorThrown) { };
-	
-	/**
-	 * Override to provide an action on remove success.
-	 *  
-	 * @param {object}       data: data returned from server
-	 * @param {string} textStatus: status of request
-	 * @param {object}    request: jqXHR object
-	 */
-	self.removeSuccess = function(data, textStatus, request) { };
-	
-	/**
-	 * Override to provide an action on remove error.
-	 * 
-	 * @param {object}       jqXHR: jqXHR object
-	 * @param {string}  textStatus: error status
-	 * @param {string} errorThrown: optional exception object
-	 */
-	self.removeError = function(request, textStatus, errorThrown) { };
-	
 	/******************************************************************
 	 *                       Private Methods
 	 ******************************************************************/
@@ -194,6 +140,8 @@ function FaroModel() {
 	}
 }
 
+
+// CLEAN ME UP!
 function UserModel() {
 	var self = this;
 	
