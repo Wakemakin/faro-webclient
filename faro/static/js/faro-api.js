@@ -14,92 +14,113 @@ function FaroModel() {
 	
 	/** 
 	 * The url of the resource. 
-	 * 
-	 * @define {string} 
 	 * */
 	self.url = '';
 	
 	/**
-	 * The primary key of the data model in
-	 * the database.
-	 * 
-	 * @define {string}
+	 * Primary key of data model in database.
 	 */
 	self.key = '';
 		
 	/**
-	 * Add functions to call when save is done.
+	 * Add functions to call for save done event.
+	 * Functions 
 	 */
 	self.saveDone = new Array();
 	
 	/**
-	 * Add functions to call when save fails.
+	 * Add functions to call for save fail event.
 	 */
 	self.saveFail = new Array();
+			
+	/**
+	 * Add functions to call for update done event.
+	 */
+	self.updateDone = new Array();
 	
 	/**
-	 * Saves the model into the database with the
-	 * specified json string.
+	 * Add functions to call for update fail event.
+	 */
+	self.updateFail = new Array();
+	
+	/**
+	 * Add functions to call for load done event.
+	 */
+	self.loadDone = new Array();
+	
+	/**
+	 * Add functions to call for load fail event.
+	 */
+	self.loadFail = new Array();
+	
+	/**
+	 * Add functions to call for remove done event.
+	 */
+	self.removeDone = new Array();
+	
+	/**
+	 * Add functions to call for remove fail event.
+	 */
+	self.removeFail = new Array();
+	
+	/**
+	 * Saves model into database.
 	 * 
 	 * @param {string} json: json string
 	 */
 	self.save = function(json) {
-		var jqXHR = $.ajax({
-			type: 'POST',
-			url: self.url,
+		var jqXHR = $.ajax({ 
+			type: 'POST', 
+			url: self.url, 
 			data: json,
-		//	contentType: 'text/plain', 
-		//	success: self.saveSuccess,
-		//  error: self.saveError
-		});
+			contentType: 'text/plain'
+		});	
 		parseDone(jqXHR, self.saveDone);
 		parseFail(jqXHR, self.saveFail);
 	};
 		
 	/**
-	 * Updates the model in the database with the
-	 * specified json string.
+	 * Updates model in database.
 	 * 
 	 * @param {string} json: json string
 	 */
 	self.update = function(json) {
-		$.ajax({
+		var jqXHR = $.ajax({
 			type: 'PUT',
 			url: self.url + '/' + self.key,
 			data: json,
-			contentType: 'text/plain', 
-			success: self.updateSuccess(data, textStatus, request),
-		    error: self.updateError(request, textStatus)
+			contentType: 'text/plain'
 		});
+		parseDone(jqXHR, self.updateDone);
+		parseFail(jqXHR, self.updateFail);
 	};
 	
 	/**
-	 * Loads the model from the database with the 
-	 * specified id.
+	 * Loads model from database.
 	 * 
 	 * @param {string} id: id of data model in database
 	 */
 	self.load = function(id) {
-		$.ajax({
+		var jqXHR = $.ajax({
 			type: 'GET',
 			url: self.url + '/' + id,
 			contentType: 'text/plain',
-			dataType: 'json',
-			success: self.loadSuccess,
-			error: self.loadError
+			dataType: 'json'
 		});
+		parseDone(jqXHR, self.loadDone);
+		parseFail(jqXHR, self.loadFail);
 	};
 	
 	/**
-	 * Removes the model from the database.
+	 * Removes model from database.
 	 */
 	self.remove = function() {
 		$.ajax({
 			type: 'DELETE',
-			url: self.url + '/' + key,
-			success: self.removeSucess(data, textStatus, request),
-			error: self.removeError(request, textStatus)
+			url: self.url + '/' + key
 		});
+		parseDone(jqXHR, self.removeDone);
+		parseFail(jqXHR, self.reomveFail);
 	};
 	
 	/**
