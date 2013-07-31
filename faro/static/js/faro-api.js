@@ -118,7 +118,7 @@ function FaroModel() {
 	self.load = function(id) {
 		var jqXHR = $.ajax({
 			type: 'GET',
-			url: self.url + '/' + id,
+			url: self.url + '/' + self.id,
 			contentType: 'text/plain',
 			dataType: 'json'
 		});
@@ -132,7 +132,7 @@ function FaroModel() {
 	self.remove = function() {
 		$.ajax({
 			type: 'DELETE',
-			url: self.url + '/' + key
+			url: self.url + '/' + self.key
 		});
 		parseDone(jqXHR, self.removeDone);
 		parseFail(jqXHR, self.reomveFail);
