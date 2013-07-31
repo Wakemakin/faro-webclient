@@ -192,14 +192,14 @@ function UserM() {
     self.events = ko.observableArray([]);
   
 	// overrides
-    	self.data = ko.computed( function() { 
-    		self.isDirty = true;
-    		return {
-		    	username : self.username, 
-		    	first_name : self.firstname,
-		    	last_name : self.lastname 
-    		};
-    	});
+	self.data = ko.computed( function() { 
+		self.isDirty = true;
+		return {
+	    	username : self.username, 
+	    	first_name : self.firstname,
+	    	last_name : self.lastname 
+		};
+	});
 	self.key = self.id();
 	self.url = 'http://api.jibely.com/users';
 	var saveError = function() { console.log("Save Error!"); };
