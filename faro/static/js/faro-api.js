@@ -4,10 +4,8 @@
  * FaroModel provides a structure to save, update, load and remove 
  * model data. This class is meant to be extended.  The subclass
  * needs to set the url {string} property to the resource it plans to 
- * use/modify. In addition, there are several success and error functions 
- * that need to be overridden for the save, update, load and remove methods.
- * 
- * @constructor
+ * use/modify. In addition, the done and fail call back functions need
+ * to added for subclasses.
  */
 function FaroModel() {
 	var self = this;
@@ -85,18 +83,17 @@ function FaroModel() {
 	constructor = function(that) {
 		that.isNew = true;
 		that.isDirty = true;
-		//alert("Constructor called");
 	}(this)
 	
 	/******************************************************************
-	 *                       Public Methods
+	 *                      Public Methods
 	 ******************************************************************/
 	
 	/**
 	 * Saves model into database.
 	 */
 	self.save = function() {
-		if (self.isNew) { // save
+		if (self.isNew) {
 			var jqXHR = $.ajax({ 
 				type: 'POST', 
 				url: self.url, 
@@ -106,7 +103,7 @@ function FaroModel() {
 			parseDone(jqXHR, self.saveDone);
 			parseFail(jqXHR, self.saveFail);	
 		} 
-		else if (self.isDirty) { // update
+		else if (self.isDirty) {
 			var jqXHR = $.ajax({
 				type: 'PUT',
 				url: self.url + '/' + self.key,
@@ -163,35 +160,41 @@ function FaroModel() {
 	}
 	
 	/******************************************************************
-	 *                       Done and Fail Functions
+	 *                    Done and Fail Functions
 	 ******************************************************************/
 	 
-	 self.saveDone.push(function(data) {
+	 self.saveDone.push( function(data) {
 	 	self.isNew = false;
 	 	self.isDirty = false;
 	 });
 	 
-	 self.updateDone.push(function() {
+	 self.updateDone.push( function() {
 	 	self.isDirty = false;		
 	 });
 }
 
 
-// CLEAN ME UP!
-function UserM() {
+/**
+ * User represents a user object from the database.
+ * 
+ * @param {object} data:
+ */
+function User(data) {
 	var self = this;
 	
-	// Inheritance
+	// inheritance
 	FaroModel.call(self);
 	
-	self.id = ko.observable();
-	self.date = ko.observable();
-    self.username = ko.observable();
-   	self.firstname = ko.observable();
-   	self.lastname = ko.observable();
+	/******************************************************************
+	 *                     Observable Properties
+	 ******************************************************************/
+	
+	self.id = ko.observable(data.id);
+	self.date = ko.observable(data.date_created);
+    self.username = ko.observable(data.username);
+   	self.firstname = ko.observable(data.first_name);
+   	self.lastname = ko.observable(data.last_name);
     self.events = ko.observableArray([]);
-  
-	// overrides
 	self.data = ko.computed( function() { 
 		self.isDirty = true;
 		return {
@@ -200,19 +203,35 @@ function UserM() {
 	    	last_name : self.lastname 
 		};
 	});
+	
+	/******************************************************************
+	 *                     Property Overrides
+	 ******************************************************************/
 	self.key = self.id();
 	self.url = 'http://api.jibely.com/users';
-	var saveError = function() { console.log("Save Error!"); };
-	self.saveFail.push(saveError);
-	var saveSuccess = function (object) { // update model (no load() call needed!!)
+	
+	/******************************************************************
+	 *                    Done and Fail Functions
+	 ******************************************************************/
+
+	self.saveDone.push( function (object) { 
 		console.log(object); 
 		self.id(object.id);
 		self.date(object.date_created);	
-	};
-	self.saveDone.push(saveSuccess);
+	});
+	
+	self.saveDone.push( function() {
+		console.log("Is New: " + self.isNew);
+		console.log("Is Dirty: " + self.isDirty);
+	});	
+	
+	self.saveFail.push( function() { 
+		console.log("Save Error!"); 
+	});
+	
 }
-// Inheritance
-UserM.prototype = Object.create(FaroModel.prototype);
-UserM.prototype.constructor = UserM;
+// inheritance
+User.prototype = Object.create(FaroModel.prototype);
+User.prototype.constructor = User;
 
 

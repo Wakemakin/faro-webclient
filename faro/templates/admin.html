@@ -15,9 +15,9 @@
 	<div class="row">
 		<div class="span12">
 			<div class="form-horizontal">
-				<input type="text" data-bind="value: $root.newusername" placeholder="User Name"/>
-				<input type="text" data-bind="value: $root.newfirstname" placeholder="First Name"/>
-				<input type="text" data-bind="value: $root.newlastname" placeholder="Last Name"/>
+				<input type="text" data-bind="value: $root.newUserName" placeholder="User Name"/>
+				<input type="text" data-bind="value: $root.newFirstName" placeholder="First Name"/>
+				<input type="text" data-bind="value: $root.newLastName" placeholder="Last Name"/>
 				<button type="button" class="btn btn-default" data-bind="click: addUser">Create</button>
 			</div>
 		</div>
@@ -32,11 +32,11 @@
 				</tr></thead>
 				<tbody data-bind="foreach: users">
 					<tr class="form-horizontal">
-						<td data-bind="text: uuid"></td>
+						<td data-bind="text: id"></td>
 						<td data-bind="text: username"></td>
 						<td data-bind="text: firstname"></td>
 						<td data-bind="text: lastname"></td>
-						<td data-bind="text: datecreated"></td>
+						<td data-bind="text: date"></td>
 						<td>
 							<button type="button" class="btn btn-default" data-bind="click: $root.editUser">Edit</button>
 							<button type="button" class="btn btn-default" data-bind="click: $root.removeUser">Delete</button>
