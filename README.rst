@@ -40,7 +40,7 @@ assume you are using a linux distribution with python 2.7.x installed.
   
 4.) Run client::
 
-  . venv/bin/acitvate #(do step if not activated)
+  . venv/bin/activate #(do step if not activated)
   cd faro-webclient
   python initiate.py
   
