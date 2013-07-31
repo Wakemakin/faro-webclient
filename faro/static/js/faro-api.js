@@ -15,7 +15,7 @@ function FaroModel() {
 	 *                       Private Properties
 	 ******************************************************************/
 	var self = this;
-	var isNew = false;
+	var isNew = true;
 	
 	/******************************************************************
 	 *                       Public Properties
@@ -23,13 +23,18 @@ function FaroModel() {
 	
 	/** 
 	 * Url of resource. 
-	 * */
+	 */
 	self.url = '';
 	
 	/**
 	 * Primary key of data model in database.
 	 */
 	self.key = '';
+
+	/**
+	 * Data changed flag. 
+	 */
+	self.isDirty = true;
 	
 	/**
 	 * KO json object.
@@ -37,7 +42,8 @@ function FaroModel() {
 	self.data = '';
 		
 	/**
-	 * Add functions to call for done events.
+	 * Add call functions to arrays for server action
+	 * done events.
 	 * 
 	 * Functions can have the following arguments
 	 * passed to them:
@@ -50,12 +56,12 @@ function FaroModel() {
 	 */
 	 
 	self.saveDone   = new Array();
-	self.updateDone = new Array();
 	self.loadDone   = new Array();
 	self.removeDone = new Array();
 	
 	/**
-	 * Add functions to call for fail events.
+	 * Add call functions to arrays for server action
+	 * fail events.
 	 * 
 	 * Functions can have the following arguments
 	 * passed to them:
@@ -67,7 +73,6 @@ function FaroModel() {
 	 * @param {string} errorThrown: optional exception object
 	 */
 	self.saveFail   = new Array();
-	self.updateFail = new Array();
 	self.loadFail   = new Array();
 	self.removeFail = new Array();
 	
@@ -79,28 +84,27 @@ function FaroModel() {
 	 * Saves model into database.
 	 */
 	self.save = function() {
-		var jqXHR = $.ajax({ 
-			type: 'POST', 
-			url: self.url, 
-			data: ko.toJSON(self.data),
-			contentType: 'text/plain'
-		});	
-		parseDone(jqXHR, self.saveDone);
-		parseFail(jqXHR, self.saveFail);
-	};
-		
-	/**
-	 * Updates model in database.
-	 */
-	self.update = function() {
-		var jqXHR = $.ajax({
-			type: 'PUT',
-			url: self.url + '/' + self.key,
-			data: self.json,
-			contentType: 'text/plain'
-		});
-		parseDone(jqXHR, self.updateDone);
-		parseFail(jqXHR, self.updateFail);
+		if (isNew) { // save
+			var jqXHR = $.ajax({ 
+				type: 'POST', 
+				url: self.url, 
+				data: ko.toJSON(self.data),
+				contentType: 'text/plain'
+			});
+			parseFail(jqXHR, self.saveFail);
+			parseDone(jqXHR, self.saveDone);
+			parseDone(jqXHR, function() { isNew = false; });		
+		} 
+		if (isDirty) { // update
+			var jqXHR = $.ajax({
+				type: 'PUT',
+				url: self.url + '/' + self.key,
+				data: self.json,
+				contentType: 'text/plain'
+			});
+			parseDone( function() { self.isDirty = false; });
+			parseFail();	
+		}
 	};
 	
 	/**
@@ -158,17 +162,20 @@ function UserM() {
 	
 	self.id = ko.observable();
 	self.date = ko.observable();
-    self.username = ko.observable();
-    self.firstname = ko.observable();
-    self.lastname = ko.observable();
-    self.events = ko.observableArray([]);
+    	self.username = ko.observable();
+   	self.firstname = ko.observable();
+   	self.lastname = ko.observable();
+    	self.events = ko.observableArray([]);
   
 	// overrides
-    self.data = { 
-    	username : self.username, 
-    	first_name : self.firstname,
-    	last_name : self.lastname 
-    };
+    	self.data = ko.computed( function() { 
+    		self.isDirty = true;
+    		return {
+		    	username : self.username, 
+		    	first_name : self.firstname,
+		    	last_name : self.lastname 
+    		};
+    	};
 	self.key = self.id();
 	self.url = 'http://api.jibely.com/users';
 	var saveError = function() { console.log("Save Error!"); };
