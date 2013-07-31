@@ -10,13 +10,8 @@
  * @constructor
  */
 function FaroModel() {
-	
-	/******************************************************************
-	 *                       Private Properties
-	 ******************************************************************/
 	var self = this;
-	var isNew = true;
-	
+		
 	/******************************************************************
 	 *                       Public Properties
 	 ******************************************************************/
@@ -30,11 +25,16 @@ function FaroModel() {
 	 * Primary key of data model in database.
 	 */
 	self.key = '';
+	
+	/**
+	 * Data is new flag.
+	 */
+	self.isNew = '';
 
 	/**
-	 * Data changed flag. 
+	 * Data has changed flag. 
 	 */
-	self.isDirty = true;
+	self.isDirty = '';
 	
 	/**
 	 * KO json object.
@@ -79,6 +79,16 @@ function FaroModel() {
 	self.removeFail = new Array();
 	
 	/******************************************************************
+	 *                       Constructor
+	 ******************************************************************/
+	
+	constructor = function(that) {
+		that.isNew = true;
+		that.isDirty = true;
+		//alert("Constructor called");
+	}(this)
+	
+	/******************************************************************
 	 *                       Public Methods
 	 ******************************************************************/
 	
@@ -86,7 +96,7 @@ function FaroModel() {
 	 * Saves model into database.
 	 */
 	self.save = function() {
-		if (isNew) { // save
+		if (self.isNew) { // save
 			var jqXHR = $.ajax({ 
 				type: 'POST', 
 				url: self.url, 
@@ -94,11 +104,9 @@ function FaroModel() {
 				contentType: 'text/plain'
 			});
 			parseDone(jqXHR, self.saveDone);
-			parseFail(jqXHR, self.saveFail);
-			parseDone(jqXHR, function() { isNew = false; });		
+			parseFail(jqXHR, self.saveFail);	
 		} 
-		
-		if (isDirty) { // update
+		else if (self.isDirty) { // update
 			var jqXHR = $.ajax({
 				type: 'PUT',
 				url: self.url + '/' + self.key,
@@ -158,12 +166,12 @@ function FaroModel() {
 	 *                       Done and Fail Functions
 	 ******************************************************************/
 	 
-	 self.saveDone.Push(function() {
-	 	isNew = false;
+	 self.saveDone.push(function(data) {
+	 	self.isNew = false;
 	 	self.isDirty = false;
 	 });
 	 
-	 self.updateDone.Push(function() {
+	 self.updateDone.push(function() {
 	 	self.isDirty = false;		
 	 });
 }
@@ -178,10 +186,10 @@ function UserM() {
 	
 	self.id = ko.observable();
 	self.date = ko.observable();
-    	self.username = ko.observable();
+    self.username = ko.observable();
    	self.firstname = ko.observable();
    	self.lastname = ko.observable();
-    	self.events = ko.observableArray([]);
+    self.events = ko.observableArray([]);
   
 	// overrides
     	self.data = ko.computed( function() { 
@@ -191,12 +199,16 @@ function UserM() {
 		    	first_name : self.firstname,
 		    	last_name : self.lastname 
     		};
-    	};
+    	});
 	self.key = self.id();
 	self.url = 'http://api.jibely.com/users';
 	var saveError = function() { console.log("Save Error!"); };
 	self.saveFail.push(saveError);
-	var saveSuccess = function (object) { console.log(object); };
+	var saveSuccess = function (object) { // update model (no load() call needed!!)
+		console.log(object); 
+		self.id(object.id);
+		self.date(object.date_created);	
+	};
 	self.saveDone.push(saveSuccess);
 }
 // Inheritance

@@ -15,6 +15,7 @@ $(document).ready(function() {
 	console.log(userM.key);
 	//console.log(ko.toJSON(userM.json));
 	userM.save();
+	//userM.save();
 
 	function User(data) {
 		var self = this;
