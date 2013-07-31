@@ -5,9 +5,15 @@ $(document).ready(function() {
 	rootURL = 'http://api.jibely.com';
 	
 	
-	var userM = new UserModel();
-	console.log(userM);
-	console.log("username: " + userM.username);
+	var userM = new UserM();
+	userM.username("testy");
+	userM.firstname("testi");
+	userM.lastname("testa");
+	console.log(ko.toJSON(userM.data));
+	//console.log(userM.json);
+	console.log(userM.id());
+	console.log(userM.key);
+	//console.log(ko.toJSON(userM.json));
 	userM.save();
 
 	function User(data) {

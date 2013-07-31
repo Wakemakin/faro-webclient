@@ -10,14 +10,19 @@
  * @constructor
  */
 function FaroModel() {
+	
+	/******************************************************************
+	 *                       Private Properties
+	 ******************************************************************/
 	var self = this;
+	var isNew = false;
 	
 	/******************************************************************
 	 *                       Public Properties
 	 ******************************************************************/
 	
 	/** 
-	 * The url of the resource. 
+	 * Url of resource. 
 	 * */
 	self.url = '';
 	
@@ -25,6 +30,11 @@ function FaroModel() {
 	 * Primary key of data model in database.
 	 */
 	self.key = '';
+	
+	/**
+	 * KO json object.
+	 */
+	self.data = '';
 		
 	/**
 	 * Add functions to call for done events.
@@ -33,6 +43,7 @@ function FaroModel() {
 	 * passed to them:
 	 * 
 	 * function(data, textStatus, request) { }
+	 * 
 	 * @param {object}       data: data returned from server
 	 * @param {string} textStatus: status of request
 	 * @param {object}    request: jqXHR object
@@ -50,6 +61,7 @@ function FaroModel() {
 	 * passed to them:
 	 * 
 	 * function(jqXHR, textStatus, errorThrown) { }
+	 * 
 	 * @param {object}       jqXHR: jqXHR object
 	 * @param {string}  textStatus: error status
 	 * @param {string} errorThrown: optional exception object
@@ -65,14 +77,12 @@ function FaroModel() {
 	
 	/**
 	 * Saves model into database.
-	 * 
-	 * @param {string} json: json string
 	 */
-	self.save = function(json) {
+	self.save = function() {
 		var jqXHR = $.ajax({ 
 			type: 'POST', 
 			url: self.url, 
-			data: json,
+			data: ko.toJSON(self.data),
 			contentType: 'text/plain'
 		});	
 		parseDone(jqXHR, self.saveDone);
@@ -81,14 +91,12 @@ function FaroModel() {
 		
 	/**
 	 * Updates model in database.
-	 * 
-	 * @param {string} json: json string
 	 */
-	self.update = function(json) {
+	self.update = function() {
 		var jqXHR = $.ajax({
 			type: 'PUT',
 			url: self.url + '/' + self.key,
-			data: json,
+			data: self.json,
 			contentType: 'text/plain'
 		});
 		parseDone(jqXHR, self.updateDone);
@@ -142,28 +150,34 @@ function FaroModel() {
 
 
 // CLEAN ME UP!
-function UserModel() {
+function UserM() {
 	var self = this;
 	
+	// Inheritance
 	FaroModel.call(self);
 	
-	self.id = 'yo';
-    	self.username = 'denneh';
-    	self.first_name = 'dennis';
-    	self.last_name = 'jor';
-    	self.date_created = '';
-    	self.events = new Array();
-    
+	self.id = ko.observable();
+	self.date = ko.observable();
+    self.username = ko.observable();
+    self.firstname = ko.observable();
+    self.lastname = ko.observable();
+    self.events = ko.observableArray([]);
+  
 	// overrides
-	self.key = self.id;
+    self.data = { 
+    	username : self.username, 
+    	first_name : self.firstname,
+    	last_name : self.lastname 
+    };
+	self.key = self.id();
 	self.url = 'http://api.jibely.com/users';
-	var one = function() { alert("Save Error 1!"); };
-	var two = function() { alert("Save Error 2!"); };
-	self.saveFail.push(one);
-	self.saveFail.push(two);
-} 
-
-UserModel.prototype = Object.create(FaroModel.prototype);
-UserModel.prototype.constructor = UserModel;
+	var saveError = function() { console.log("Save Error!"); };
+	self.saveFail.push(saveError);
+	var saveSuccess = function (object) { console.log(object); };
+	self.saveDone.push(saveSuccess);
+}
+// Inheritance
+UserM.prototype = Object.create(FaroModel.prototype);
+UserM.prototype.constructor = UserM;
 
 
