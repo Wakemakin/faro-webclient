@@ -56,6 +56,7 @@ function FaroModel() {
 	 */
 	 
 	self.saveDone   = new Array();
+	self.updateDone = new Array();
 	self.loadDone   = new Array();
 	self.removeDone = new Array();
 	
@@ -73,6 +74,7 @@ function FaroModel() {
 	 * @param {string} errorThrown: optional exception object
 	 */
 	self.saveFail   = new Array();
+	self.updateFail = new Array();
 	self.loadFail   = new Array();
 	self.removeFail = new Array();
 	
@@ -91,10 +93,11 @@ function FaroModel() {
 				data: ko.toJSON(self.data),
 				contentType: 'text/plain'
 			});
-			parseFail(jqXHR, self.saveFail);
 			parseDone(jqXHR, self.saveDone);
+			parseFail(jqXHR, self.saveFail);
 			parseDone(jqXHR, function() { isNew = false; });		
 		} 
+		
 		if (isDirty) { // update
 			var jqXHR = $.ajax({
 				type: 'PUT',
@@ -102,8 +105,8 @@ function FaroModel() {
 				data: self.json,
 				contentType: 'text/plain'
 			});
-			parseDone( function() { self.isDirty = false; });
-			parseFail();	
+			parseDone(jqXHR, self.updateDone);
+			parseFail(jqXHR, self.updateFail);
 		}
 	};
 	
@@ -150,6 +153,19 @@ function FaroModel() {
 			jqXHR.fail(fails[i]);
 		}
 	}
+	
+	/******************************************************************
+	 *                       Done and Fail Functions
+	 ******************************************************************/
+	 
+	 self.saveDone.Push(function() {
+	 	isNew = false;
+	 	self.isDirty = false;
+	 });
+	 
+	 self.updateDone.Push(function() {
+	 	self.isDirty = false;		
+	 });
 }
 
 
