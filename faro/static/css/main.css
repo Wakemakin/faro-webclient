@@ -188,3 +188,14 @@ form input#password {
 form input#password {
   margin-bottom: 10px;
 }
+
+/*
+ * Admin Page
+ */
+#admin input {
+	width: 100px;
+}
+
+button {
+	margin-top: 0px;
+}
