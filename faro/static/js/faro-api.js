@@ -260,24 +260,24 @@ function User(data) {
 	 *                    Done and Fail Functions
 	 ******************************************************************/
 
-	self.saveDone.push( function (object) { 
-		self.id(object.id);
-		self.date(object.date_created);	
+	self.saveDone.push( function (data) { 
+		self.id(data.id);
+		self.date(data.date_created);	
 		self.key = self.id();
 	});
 	
-	self.loadDone.push( function(object) {
-		self.id(object.id);
-		self.date(object.date_created);
-		self.userName(object.display_name);
-	   	self.firstName(object.first_name);
-	   	self.lastName(object.last_name);
+	self.loadDone.push( function(data) {
+		self.id(data.id);
+		self.date(data.date_created);
+		self.userName(data.display_name);
+	   	self.firstName(data.first_name);
+	   	self.lastName(data.last_name);
 	});	
 	
-	self.updateDone.push( function(object) {
-		self.userName(object.display_name);
-	   	self.firstName(object.first_name);
-	   	self.lastName(object.last_name);
+	self.updateDone.push( function(data) {
+		self.userName(data.display_name);
+	   	self.firstName(data.first_name);
+	   	self.lastName(data.last_name);
 	});	
 	
 	/******************************************************************
@@ -352,7 +352,7 @@ function Event(data) {
 	 *                    Done and Fail Functions
 	 ******************************************************************/
 
-	// add things to saved user created by database
+	// add properties created from save action to user
 	self.saveDone.push( function (data) { 
 		self.parentId(data.id);
 		self.id(data.id);
@@ -360,7 +360,7 @@ function Event(data) {
 		self.key = self.id();
 	});
 	
-	self.loadDone.push( function(data, textStatus, jqXHR) {
+	self.loadDone.push( function(data) {
 		self.parentId(data.parent_id);
 		self.ownerId(data.owner_id);
 		self.isTemplate(data.is_template);
@@ -368,6 +368,13 @@ function Event(data) {
 		self.description(data.description);
 		self.id(data.id);
 		self.date(data.date_created);
+	});	
+	
+	self.updateDone.push( function(data) {
+		self.name(data.name);
+		self.description(data.description);
+		self.isTemplate(data.is_template);
+		self.ownerId(data.owner_id);
 	});	
 	
 	/******************************************************************
