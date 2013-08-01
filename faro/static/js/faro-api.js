@@ -5,7 +5,11 @@
  * model data. This class is meant to be extended.  The subclass
  * needs to set the url {string} property to the resource it plans to 
  * use/modify. In addition, the done and fail call back functions need
- * to added for subclasses.
+ * to be added for subclasses.
+ * 
+ * Dependencies: 
+ * jQuery <http://code.jquery.com/jquery-latest.min.js>
+ * knockout <http://knockoutjs.com/>
  */
 function FaroModel() {
 	var self = this;
@@ -123,7 +127,7 @@ function FaroModel() {
 	self.load = function(id) {
 		var jqXHR = $.ajax({
 			type: 'GET',
-			url: self.url + '/' + self.id,
+			url: self.url + '/' + id,
 			contentType: 'text/plain',
 			dataType: 'json'
 		});
@@ -220,16 +224,16 @@ function User(data) {
 	
 	self.id = ko.observable(data.id);
 	self.date = ko.observable(data.date_created);
-    self.username = ko.observable(data.username);
+	self.username = ko.observable(data.username);
    	self.firstname = ko.observable(data.first_name);
    	self.lastname = ko.observable(data.last_name);
-    self.events = ko.observableArray([]);
+   	self.events = ko.observableArray([]);
 	
 	/******************************************************************
 	 *                      Observable Flag
 	 ******************************************************************/
     
-    self.data = ko.computed( function() { 
+	self.data = ko.computed( function() { 
     	// when username, first_name, last_name change,
     	// this function is called and sets isDirty to true
 		self.isDirty = true;
@@ -243,8 +247,7 @@ function User(data) {
 	/******************************************************************
 	 *                     Property Overrides
 	 ******************************************************************/
-    
-	self.key = self.id();
+
 	self.url = 'http://api.jibely.com/users';
 	
 	/******************************************************************
@@ -254,21 +257,28 @@ function User(data) {
 	self.saveDone.push( function (object) { 
 		self.id(object.id);
 		self.date(object.date_created);	
+		self.key = self.id();
 	});
 	
-	self.saveDone.push( function() {
-		console.log("Is New: " + self.isNew);
-		console.log("Is Dirty: " + self.isDirty);
+	self.loadDone.push( function(object) {
+		self.id(object.id);
+		self.date(object.date_created);
+		self.username(object.display_name);
+	   	self.firstname(object.first_name);
+	   	self.lastname(object.last_name);
 	});	
 	
-	self.saveFail.push( function() { 
-		console.log("Save Error!"); 
-	});
+	/******************************************************************
+	 *                    Private Methods/Calls
+	 ******************************************************************/
 	
-	self.removeDone.push( function(data) {
-		console.log("Deleted ID: " + self.key);
-	});
+	if (self.id() != undefined) {
+		self.key = self.id();
+	}
 	
+	if (data.display_name != undefined) {
+		self.username(data.display_name);
+	}
 }
 // inheritance
 User.prototype = Object.create(FaroModel.prototype);
