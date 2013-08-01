@@ -219,6 +219,90 @@ function User(data) {
 	FaroModel.call(self);
 	
 	/******************************************************************
+	 *                     Property Overrides
+	 ******************************************************************/
+
+	self.url = 'http://api.jibely.com/users';
+	
+	/******************************************************************
+	 *                    Observable Properties
+	 ******************************************************************/
+	
+	self.id = ko.observable(data.id);
+	self.date = ko.observable(data.date_created);
+	self.username = ko.observable(data.username);
+   	self.firstname = ko.observable(data.first_name);
+   	self.lastname = ko.observable(data.last_name);
+   	self.events = ko.observableArray([]);
+	
+	/******************************************************************
+	 *                      Observable Flag
+	 ******************************************************************/
+    
+	self.data = ko.computed( function() { 
+    	// when username, first_name, last_name change,
+    	// this function is called and sets isDirty to true
+		self.isDirty = true;
+		return {
+	    	username : self.username, 
+	    	first_name : self.firstname,
+	    	last_name : self.lastname 
+		};
+	});
+	
+	/******************************************************************
+	 *                    Done and Fail Functions
+	 ******************************************************************/
+
+	self.saveDone.push( function (object) { 
+		self.id(object.id);
+		self.date(object.date_created);	
+		self.key = self.id();
+	});
+	
+	self.loadDone.push( function(object) {
+		self.id(object.id);
+		self.date(object.date_created);
+		self.username(object.display_name);
+	   	self.firstname(object.first_name);
+	   	self.lastname(object.last_name);
+	});	
+	
+	self.updateDone.push( function(object) {
+		self.username(object.display_name);
+	   	self.firstname(object.first_name);
+	   	self.lastname(object.last_name);
+	});	
+	
+	/******************************************************************
+	 *                    Private Methods/Calls
+	 ******************************************************************/
+	
+	if (self.id() != undefined) {
+		self.key = self.id();
+	}
+	
+	if (data.display_name != undefined) {
+		self.username(data.display_name);
+	}
+}
+// inheritance
+User.prototype = Object.create(FaroModel.prototype);
+User.prototype.constructor = User;
+
+
+/**
+ * Represents an event object from the database.
+ * 
+ * @param {object} data: object with event properties
+ */
+function Event(data) {
+	var self = this;
+	
+	// inheritance
+	FaroModel.call(self);
+	
+	/******************************************************************
 	 *                    Observable Properties
 	 ******************************************************************/
 	
@@ -260,12 +344,13 @@ function User(data) {
 		self.key = self.id();
 	});
 	
-	self.loadDone.push( function(object) {
-		self.id(object.id);
-		self.date(object.date_created);
-		self.username(object.display_name);
-	   	self.firstname(object.first_name);
-	   	self.lastname(object.last_name);
+	self.loadDone.push( function(data, textStatus, jqXHR) {
+		console.log(data);
+		self.id(data.id);
+		self.date(data.date_created);
+		self.username(data.display_name);
+	   	self.firstname(data.first_name);
+	   	self.lastname(data.last_name);
 	});	
 	
 	/******************************************************************
@@ -281,7 +366,7 @@ function User(data) {
 	}
 }
 // inheritance
-User.prototype = Object.create(FaroModel.prototype);
-User.prototype.constructor = User;
+Event.prototype = Object.create(FaroModel.prototype);
+Event.prototype.constructor = Event;
 
 
