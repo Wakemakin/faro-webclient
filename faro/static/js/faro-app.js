@@ -6,7 +6,6 @@ $(document).ready(function() {
 
 	function UsersViewModel() {
 		var self = this;
-		var url = 'http://api.jibely.com/users'
 
 		self.newUserName = ko.observable();
 		self.newFirstName = ko.observable();
@@ -19,7 +18,6 @@ $(document).ready(function() {
 				first_name : self.newFirstName(),
 				last_name: self.newLastName()
 			});
-			console.log("Add: " + user);
 			self.users.push(user);
 			self.newUserName("");
 			self.newFirstName("");
@@ -29,6 +27,7 @@ $(document).ready(function() {
 		
 		self.removeUser = function(user) {
 			self.users.remove(user);
+			user.remove();
 		}	
 		
 		self.editUser = function(user) {
@@ -36,8 +35,7 @@ $(document).ready(function() {
 		}
 		
 		// Load initial state of users
-		$.getJSON(url, function(data) {
-			console.log(data);
+		$.getJSON('http://api.jibely.com/users', function(data) {
 			var mappedUsers = $.map(data.objects, function(item) {
 				user = new User(item);
 				return user;

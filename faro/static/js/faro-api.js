@@ -46,11 +46,11 @@ function FaroModel() {
 	 * Functions can have the following arguments
 	 * passed to them:
 	 * 
-	 * function(data, textStatus, request) { }
+	 * function(data, textStatus, jqXHR) { }
 	 * 
 	 * @param {object}       data: data returned from server
 	 * @param {string} textStatus: status of request
-	 * @param {object}    request: jqXHR object
+	 * @param {object}      jqXHR: jqXHR object
 	 */
 	 
 	self.saveDone   = new Array();
@@ -135,12 +135,12 @@ function FaroModel() {
 	 * Removes model from database.
 	 */
 	self.remove = function() {
-		$.ajax({
+		var jqXHR = $.ajax({
 			type: 'DELETE',
 			url: self.url + '/' + self.key
 		});
 		parseDone(jqXHR, self.removeDone);
-		parseFail(jqXHR, self.reomveFail);
+		parseFail(jqXHR, self.removeFail);
 	};
 	
 	/******************************************************************
@@ -163,21 +163,50 @@ function FaroModel() {
 	 *                    Done and Fail Functions
 	 ******************************************************************/
 	 
-	 self.saveDone.push( function(data) {
-	 	self.isNew = false;
-	 	self.isDirty = false;
+	 self.saveDone.push( function(data, textStatus, jqXHR) {
+		 self.isNew = false;
+		 self.isDirty = false;
+		 console.log("Save " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
-	 self.updateDone.push( function() {
-	 	self.isDirty = false;		
+	 self.saveFail.push( function(jqXHR, textStatus, errorThrown) {
+		 console.log("Save " + textStatus + " (code " + jqXHR.status + ")");
+	 });
+	 
+	 self.updateDone.push( function(data, textStatus, jqXHR) {
+		 self.isDirty = false;
+		 console.log("Update " + textStatus + " (code " + jqXHR.status + ")");
+	 });
+	 
+	 self.updateFail.push( function(jqXHR, textStatus, errorThrown) {
+		 console.log("Update " + textStatus + " (code " + jqXHR.status + ")");
+	 });
+	 
+	 self.loadDone.push( function(data, textStatus, jqXHR) {
+		 self.isNew = false;
+		 self.isDirty = false;
+		 console.log("Load " + textStatus + " (code " + jqXHR.status + ")");
+	 });
+	 
+	 self.loadFail.push( function(jqXHR, textStatus, errorThrown) {
+		 console.log("Load " + textStatus + " (code " + jqXHR.status + ")");
+	 });
+	 
+	 self.removeDone.push( function(data, textStatus, jqXHR) {
+		 self.isDirty = false;
+		 console.log("Remove " + textStatus + " (code " + jqXHR.status + ")");
+	 });
+	 
+	 self.removeFail.push( function(jqXHR, textStatus, errorThrown) {
+		 console.log("Remove " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 }
 
 
 /**
- * User represents a user object from the database.
+ * Represents a user object from the database.
  * 
- * @param {object} data:
+ * @param {object} data: object with user properties
  */
 function User(data) {
 	var self = this;
@@ -186,7 +215,7 @@ function User(data) {
 	FaroModel.call(self);
 	
 	/******************************************************************
-	 *                     Observable Properties
+	 *                    Observable Properties
 	 ******************************************************************/
 	
 	self.id = ko.observable(data.id);
@@ -195,7 +224,14 @@ function User(data) {
    	self.firstname = ko.observable(data.first_name);
    	self.lastname = ko.observable(data.last_name);
     self.events = ko.observableArray([]);
-	self.data = ko.computed( function() { 
+	
+	/******************************************************************
+	 *                      Observable Flag
+	 ******************************************************************/
+    
+    self.data = ko.computed( function() { 
+    	// when username, first_name, last_name change,
+    	// this function is called and sets isDirty to true
 		self.isDirty = true;
 		return {
 	    	username : self.username, 
@@ -207,6 +243,7 @@ function User(data) {
 	/******************************************************************
 	 *                     Property Overrides
 	 ******************************************************************/
+    
 	self.key = self.id();
 	self.url = 'http://api.jibely.com/users';
 	
@@ -215,7 +252,6 @@ function User(data) {
 	 ******************************************************************/
 
 	self.saveDone.push( function (object) { 
-		console.log(object); 
 		self.id(object.id);
 		self.date(object.date_created);	
 	});
@@ -227,6 +263,10 @@ function User(data) {
 	
 	self.saveFail.push( function() { 
 		console.log("Save Error!"); 
+	});
+	
+	self.removeDone.push( function(data) {
+		console.log("Deleted ID: " + self.key);
 	});
 	
 }
