@@ -1,6 +1,7 @@
-/**
- * FaroModel
- * 
+/**********************************************************************
+ *                           FARO MODEL
+ **********************************************************************
+ *
  * FaroModel provides a structure to save, update, load and remove 
  * model data. This class is meant to be extended.  The subclass
  * needs to set the url {string} property to the resource it plans to 
@@ -8,9 +9,10 @@
  * to be added for subclasses.
  * 
  * Dependencies: 
- * jQuery <http://code.jquery.com/jquery-latest.min.js>
- * knockout <http://knockoutjs.com/>
- */
+ * 	- jQuery <http://code.jquery.com/jquery-latest.min.js>
+ * 	- knockout <http://knockoutjs.com/>
+ * 
+ ***********************************************************************/
 function FaroModel() {
 	var self = this;
 		
@@ -56,7 +58,6 @@ function FaroModel() {
 	 * @param {string} textStatus: status of request
 	 * @param {object}      jqXHR: jqXHR object
 	 */
-	 
 	self.saveDone   = new Array();
 	self.updateDone = new Array();
 	self.loadDone   = new Array();
@@ -206,12 +207,15 @@ function FaroModel() {
 	 });
 }
 
-
-/**
+/**********************************************************************
+ *                           USER MODEL
+ **********************************************************************
+ *
  * Represents a user object from the database.
  * 
  * @param {object} data: object with user properties
- */
+ * 
+ **********************************************************************/
 function User(data) {
 	var self = this;
 	
@@ -290,12 +294,15 @@ function User(data) {
 User.prototype = Object.create(FaroModel.prototype);
 User.prototype.constructor = User;
 
-
-/**
+/**********************************************************************
+ *                           EVENT MODEL
+ **********************************************************************
+ *
  * Represents an event object from the database.
  * 
  * @param {object} data: object with event properties
- */
+ * 
+ ***********************************************************************/
 function Event(data) {
 	var self = this;
 	
