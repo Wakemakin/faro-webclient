@@ -12,7 +12,7 @@
  * 	- jQuery <http://code.jquery.com/jquery-latest.min.js>
  * 	- knockout <http://knockoutjs.com/>
  * 
- ***********************************************************************/
+ **********************************************************************/
 function FaroModel() {
 	var self = this;
 		
@@ -234,23 +234,25 @@ function User(data) {
 	
 	self.id = ko.observable(data.id);
 	self.date = ko.observable(data.date_created);
-	self.username = ko.observable(data.username);
-   	self.firstname = ko.observable(data.first_name);
-   	self.lastname = ko.observable(data.last_name);
+	self.userName = ko.observable(data.username);
+   	self.firstName = ko.observable(data.first_name);
+   	self.lastName = ko.observable(data.last_name);
    	self.events = ko.observableArray([]);
 	
 	/******************************************************************
 	 *                      Observable Flag
+	 *
+	 * When these properties change, they flag the isDirty property so
+	 * that save() actually updates (PUT) the data.
+	 *                      
 	 ******************************************************************/
     
 	self.data = ko.computed( function() { 
-    	// when username, first_name, last_name change,
-    	// this function is called and sets isDirty to true
 		self.isDirty = true;
 		return {
-	    	username : self.username, 
-	    	first_name : self.firstname,
-	    	last_name : self.lastname 
+	    	username : self.userName, 
+	    	first_name : self.firstName,
+	    	last_name : self.lastName 
 		};
 	});
 	
@@ -267,15 +269,15 @@ function User(data) {
 	self.loadDone.push( function(object) {
 		self.id(object.id);
 		self.date(object.date_created);
-		self.username(object.display_name);
-	   	self.firstname(object.first_name);
-	   	self.lastname(object.last_name);
+		self.userName(object.display_name);
+	   	self.firstName(object.first_name);
+	   	self.lastName(object.last_name);
 	});	
 	
 	self.updateDone.push( function(object) {
-		self.username(object.display_name);
-	   	self.firstname(object.first_name);
-	   	self.lastname(object.last_name);
+		self.userName(object.display_name);
+	   	self.firstName(object.first_name);
+	   	self.lastName(object.last_name);
 	});	
 	
 	/******************************************************************
@@ -287,7 +289,7 @@ function User(data) {
 	}
 	
 	if (data.display_name != undefined) {
-		self.username(data.display_name);
+		self.userName(data.display_name);
 	}
 }
 // inheritance
@@ -302,7 +304,7 @@ User.prototype.constructor = User;
  * 
  * @param {object} data: object with event properties
  * 
- ***********************************************************************/
+ **********************************************************************/
 function Event(data) {
 	var self = this;
 	
@@ -310,54 +312,62 @@ function Event(data) {
 	FaroModel.call(self);
 	
 	/******************************************************************
-	 *                    Observable Properties
-	 ******************************************************************/
-	
-	self.id = ko.observable(data.id);
-	self.date = ko.observable(data.date_created);
-	self.username = ko.observable(data.username);
-   	self.firstname = ko.observable(data.first_name);
-   	self.lastname = ko.observable(data.last_name);
-   	self.events = ko.observableArray([]);
-	
-	/******************************************************************
-	 *                      Observable Flag
-	 ******************************************************************/
-    
-	self.data = ko.computed( function() { 
-    	// when username, first_name, last_name change,
-    	// this function is called and sets isDirty to true
-		self.isDirty = true;
-		return {
-	    	username : self.username, 
-	    	first_name : self.firstname,
-	    	last_name : self.lastname 
-		};
-	});
-	
-	/******************************************************************
 	 *                     Property Overrides
 	 ******************************************************************/
 
-	self.url = 'http://api.jibely.com/users';
+	self.url = 'http://api.jibely.com/events';
+	
+	/******************************************************************
+	 *                    Observable Properties
+	 ******************************************************************/
+	
+	self.parentId = ko.observable(data.parent_id);
+	self.ownerId = ko.observable(data.owner_id);
+	self.isTemplate = ko.observable(data.is_template);
+	self.name = ko.observable(data.name);
+	self.description = ko.observable(data.description);
+	self.id = ko.observable(data.id);
+	self.date = ko.observable(data.date_created);
+	self.owner = data.owner;
+	
+	/******************************************************************
+	 *                      Observable Flag
+	 *
+	 * When these properties change, they flag the isDirty property so
+	 * that save() method actually updates (PUT) the data.
+	 *                      
+	 ******************************************************************/
+    
+	self.data = ko.computed( function() { 
+		self.isDirty = true;
+		return {
+			name : self.name,
+			description : self.description,
+			is_template : self.isTemplate,
+			owner_id : self.ownerId
+		};
+	});
 	
 	/******************************************************************
 	 *                    Done and Fail Functions
 	 ******************************************************************/
 
-	self.saveDone.push( function (object) { 
-		self.id(object.id);
-		self.date(object.date_created);	
+	// add things to saved user created by database
+	self.saveDone.push( function (data) { 
+		self.parentId(data.id);
+		self.id(data.id);
+		self.date(data.date_created);
 		self.key = self.id();
 	});
 	
 	self.loadDone.push( function(data, textStatus, jqXHR) {
-		console.log(data);
+		self.parentId(data.parent_id);
+		self.ownerId(data.owner_id);
+		self.isTemplate(data.is_template);
+		self.name(data.name);
+		self.description(data.description);
 		self.id(data.id);
 		self.date(data.date_created);
-		self.username(data.display_name);
-	   	self.firstname(data.first_name);
-	   	self.lastname(data.last_name);
 	});	
 	
 	/******************************************************************
@@ -366,10 +376,6 @@ function Event(data) {
 	
 	if (self.id() != undefined) {
 		self.key = self.id();
-	}
-	
-	if (data.display_name != undefined) {
-		self.username(data.display_name);
 	}
 }
 // inheritance
