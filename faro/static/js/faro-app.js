@@ -45,6 +45,57 @@ function UsersViewModel() {
 	});
 }
 
+/**********************************************************************
+ *                        EVENTS VIEW MODEL
+ **********************************************************************
+ *
+ * View displays all events in database.
+ * 
+ **********************************************************************/
+function EventsViewModel() {
+	var self = this;
+
+	self.newName = ko.observable();  		// move out into another model later
+	self.newDescription = ko.observable(); 	// move out into another model later
+	self.newIsTemplate = ko.observable();  	// move out into another model later
+	self.newOwnerId = ko.observable();  	// move out into another model later
+	self.events = ko.observableArray([]);  
+	
+	self.addEvent = function() {
+		var event = new Event({ 
+			name : self.newName(), 
+			description : self.newDescription(),
+			is_template : self.newIsTemplate(),
+			owner_id : self.newOwnerId()
+		});
+		self.events.push(event);
+		self.newName("");
+		self.newDescription("");
+		self.newIsTemplate("");
+		self.newOwnerId("");
+		event.save();
+	};
+	
+	self.removeEvent = function(event) {
+		self.events.remove(event);
+		event.remove();
+	}	
+	
+	self.editEvent = function(event) {
+		event.modify = true;
+	}
+	
+	// Load initial state of users
+	$.getJSON('http://api.jibely.com/events', function(data) {
+		var mappedEvents = $.map(data.objects, function(item) {
+			event = new Event(item);
+			return event;
+		});
+		self.events(mappedEvents);
+	});
+}
+
 $(document).ready(function() {
-	ko.applyBindings(new UsersViewModel(), document.getElementById('#admin'));
+	ko.applyBindings(new UsersViewModel(), $('#adminUsers')[0]);
+	ko.applyBindings(new EventsViewModel(), $('#adminEvents')[0]);
 }); 

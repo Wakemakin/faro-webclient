@@ -198,7 +198,6 @@ function FaroModel() {
 	 });
 	 
 	 self.removeDone.push( function(data, textStatus, jqXHR) {
-		 self.isDirty = false;
 		 console.log("Remove " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -343,7 +342,6 @@ function Event(data) {
 		return {
 			name : self.name,
 			description : self.description,
-			is_template : self.isTemplate,
 			owner_id : self.ownerId
 		};
 	});
@@ -373,7 +371,6 @@ function Event(data) {
 	self.updateDone.push( function(data) {
 		self.name(data.name);
 		self.description(data.description);
-		self.isTemplate(data.is_template);
 		self.ownerId(data.owner_id);
 	});	
 	
