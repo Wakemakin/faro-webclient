@@ -82,13 +82,10 @@ function FaroModel() {
 	self.removeFail = new Array();
 	
 	/******************************************************************
-	 *                       Constructor
+	 *                          Setup
 	 ******************************************************************/
 	
-	constructor = function(that) {
-		that.isNew = true;
-		that.isDirty = true;
-	}(this)
+	Initialize();
 	
 	/******************************************************************
 	 *                      Public Methods
@@ -164,6 +161,11 @@ function FaroModel() {
 		}
 	}
 	
+	function Initialize() {
+		self.isNew = true;
+		self.isDirty = true;
+	}
+	
 	/******************************************************************
 	 *                    Done and Fail Functions
 	 ******************************************************************/
@@ -218,9 +220,13 @@ function FaroModel() {
 function User(data) {
 	var self = this;
 	
-	// inheritance
-	FaroModel.call(self);
+	/******************************************************************
+	 *                          Setup
+	 ******************************************************************/
 	
+	FaroModel.call(self); // Faro model inheritance
+	Initialize();
+		
 	/******************************************************************
 	 *                     Property Overrides
 	 ******************************************************************/
@@ -283,15 +289,20 @@ function User(data) {
 	 *                    Private Methods/Calls
 	 ******************************************************************/
 	
-	if (self.id() != undefined) {
+	if (self.id() !== undefined) {
 		self.key = self.id();
 	}
 	
-	if (data.display_name != undefined) {
+	if (data.display_name !== undefined) {
 		self.userName(data.display_name);
 	}
+	
+	function Initialize() {
+		if (data === undefined)
+			data = {};
+	}
 }
-// inheritance
+// Faro model inheritance
 User.prototype = Object.create(FaroModel.prototype);
 User.prototype.constructor = User;
 
@@ -307,8 +318,12 @@ User.prototype.constructor = User;
 function Event(data) {
 	var self = this;
 	
-	// inheritance
-	FaroModel.call(self);
+	/******************************************************************
+	 *                          Setup
+	 ******************************************************************/
+	
+	FaroModel.call(self);  // Faro model inheritance
+	Initialize();
 	
 	/******************************************************************
 	 *                     Property Overrides
@@ -381,8 +396,13 @@ function Event(data) {
 	if (self.id() != undefined) {
 		self.key = self.id();
 	}
+	
+	function Initialize() {
+		if (data === undefined)
+			data = '{}';
+	}
 }
-// inheritance
+// Faro model inheritance
 Event.prototype = Object.create(FaroModel.prototype);
 Event.prototype.constructor = Event;
 
