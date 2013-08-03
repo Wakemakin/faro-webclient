@@ -129,11 +129,3 @@ def testdb():
 	else:
 		return render_template('database.html', works=False)
 
-@app.route('/poster', methods=['GET', 'POST'])
-def poster():
-	return render_template('poster.html')
-
-if __name__ == '__main__':
-	app.run(debug=True)
-
-
