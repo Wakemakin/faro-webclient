@@ -5,6 +5,8 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link href="{{ url_for('static', filename='css/bootstrap.min.css') }}" rel="stylesheet" media="screen">
 		<link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+		<!-- Not For Production -->
+		<link href="{{ url_for('static', filename='css/test/qunit.css') }}" rel="stylesheet">
 	</head>
 	<body>
 		<header>
@@ -16,6 +18,7 @@
 					<div class="span10">				
 						<strong><nav><ul class="menu">
 							{% if 'email' in session %}
+							<li><a href="{{ url_for('test') }}">Test</a></li>	
 							<li><a href="{{ url_for('admin') }}">Admin</a></li>	
 							<li><a href="{{ url_for('dash') }}">Dashboard</a></li>	
 							<li><a href="{{ url_for('profile') }}">Profile</a></li>	
@@ -31,10 +34,13 @@
 			</div>
 		</header>
 		<script src="http://code.jquery.com/jquery.js"></script>
-   		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+		<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
    		<script src="{{ url_for('static', filename='js/knockout-2.3.0.js') }}"></script>
    		<script src="{{ url_for('static', filename='js/faro-api.js') }}"></script>
    		<script src="{{ url_for('static', filename='js/faro-app.js') }}"></script>
+   		<!-- Not For Production -->
+   		<script src="{{ url_for('static', filename='js/test/qunit.js') }}"></script>
+   		<script src="{{ url_for('static', filename='js/test/test.js') }}"></script>
 		<div class="container">
 			{% block content %}
 			{% endblock %}		

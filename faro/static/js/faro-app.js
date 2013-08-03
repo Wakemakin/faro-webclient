@@ -96,6 +96,8 @@ function EventsViewModel() {
 }
 
 $(document).ready(function() {
-	ko.applyBindings(new UsersViewModel(), $('#adminUsers')[0]);
-	ko.applyBindings(new EventsViewModel(), $('#adminEvents')[0]);
+	if ($('#adminUsers').length > 0)
+		ko.applyBindings(new UsersViewModel(), $('#adminUsers')[0]);
+	if ($('#adminEvents').length > 0)
+		ko.applyBindings(new EventsViewModel(), $('#adminEvents')[0]);
 }); 

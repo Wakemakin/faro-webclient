@@ -123,9 +123,14 @@ def signout():
 	return redirect(url_for('home'))
 	
 @app.route('/test')
-def testdb():
-	if db.session.query("1").from_statement("SELECT 1").all():
-		return render_template('test.html', works=True)
+def test():
+	if 'email' not in session:
+		return redirect(url_for('signin'))
+		
+	user = User.query.filter_by(email = session['email']).first()
+	
+	if user is None:
+		return redirect(url_for('signin'))
 	else:
-		return render_template('test.html', works=False)
+		return render_template('test/test.html')
 
