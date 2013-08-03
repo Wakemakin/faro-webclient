@@ -122,10 +122,10 @@ def signout():
 	session.pop('email', None)
 	return redirect(url_for('home'))
 	
-@app.route('/testdb')
+@app.route('/test')
 def testdb():
 	if db.session.query("1").from_statement("SELECT 1").all():
-		return render_template('database.html', works=True)
+		return render_template('test.html', works=True)
 	else:
-		return render_template('database.html', works=False)
+		return render_template('test.html', works=False)
 
