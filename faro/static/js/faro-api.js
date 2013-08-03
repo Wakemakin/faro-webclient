@@ -399,7 +399,7 @@ function Event(data) {
 	
 	function Initialize() {
 		if (data === undefined)
-			data = '{}';
+			data = {};
 	}
 }
 // Faro model inheritance
