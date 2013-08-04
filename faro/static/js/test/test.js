@@ -1,39 +1,47 @@
 module('User');
+user = new User();
 
-test( "Test Empty Set", function() {
-	var user = new User();
-	equal(user.id(), undefined, "id [user.id()] is undefined");
-	equal(user.date(), undefined, "date [user.date()] is undefined");
-	equal(user.userName(), undefined, "user name [user.userName()] is undefined");
-	equal(user.firstName(), undefined, "last name [user.userLast()] is undefined");
-	equal(user.lastName(), undefined, "first name [user.firstName()] is undefined");
-	equal(user.events().length, 0, "no user events [user.events()] exist");
+test( "Initialization", function() {
+	equal(user.isNew, true, "New flag [user.isNew] is true");
+	equal(user.isDirty, true, "Dirty flag [user.isDirty] is true");
+	equal(user.url, "/users", "Url [user.url] is /users");
+	equal(user.rootUrl, "http://api.jibely.com", "Root url [user.rootUrl] is http://api.jibely.com");
+	equal(user.id(), undefined, "Id [user.id()] is undefined");
+	equal(user.date(), undefined, "Date [user.date()] is undefined");
+	equal(user.userName(), undefined, "User name [user.userName()] is undefined");
+	equal(user.firstName(), undefined, "Last name [user.userLast()] is undefined");
+	equal(user.lastName(), undefined, "First name [user.firstName()] is undefined");
+	equal(user.events().length, 0, "NO user events [user.events()] exist");
 });
 
-test( "Test Save", function() {
-	var user = new User();
-	ok(true, "Create");
-});
-
-test( "Test Update", function() {
-	var user = new User();
-	ok(true, "Create");
-});
-
-test( "Test Load", function() {
+test( "Save", function() {
 	var user = new User();
 	ok(true, "Create");
 });
 
-test( "Test Remove", function() {
+test( "Update", function() {
+	var user = new User();
+	ok(true, "Create");
+});
+
+test( "Load", function() {
+	var user = new User();
+	ok(true, "Create");
+});
+
+test( "Remove", function() {
 	var user = new User();
 	ok(true, "Create");
 });
 
 module('Event');
+event = new Event();
 
-test( "Test Empty Set", function() {
-	var event = new Event();
+test( "Initialization", function() {
+	equal(event.isNew, true, "New flag [event.isNew] is true");
+	equal(event.isDirty, true, "Dirty flag [event.isDirty] is true");
+	equal(event.url, "/events", "Url [event.url] is /events");
+	equal(event.rootUrl, "http://api.jibely.com", "Root url [event.rootUrl] is http://api.jibely.com");
 	equal(event.parentId(), undefined, "parent id [event.parentId()] is undefind");
 	equal(event.ownerId(), undefined, "owner id [event.ownerId()] is undefind");
 	equal(event.isTemplate(), undefined, "is template id [event.isTemplate()] is undefind");
@@ -44,22 +52,22 @@ test( "Test Empty Set", function() {
 	equal(event.owner, undefined, "owner [event.owner] is undefined");
 });
 
-test( "Test Save", function() {
+test( "Save", function() {
 	var event = new Event();
 	ok(true, "Create");
 });
 
-test( "Test Update", function() {
+test( "Update", function() {
 	var event = new Event();
 	ok(true, "Create");
 });
 
-test( "Test Load", function() {
+test( "Load", function() {
 	var event = new Event();
 	ok(true, "Create");
 });
 
-test( "Test Remove", function() {
+test( "Remove", function() {
 	var event = new Event();
 	ok(true, "Create");
 });

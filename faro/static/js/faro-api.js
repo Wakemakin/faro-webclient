@@ -25,6 +25,11 @@ function FaroModel() {
 	 */
 	self.url = '';
 	
+	/** 
+	 * Root url. 
+	 */
+	self.rootUrl = 'http://api.jibely.com';
+	
 	/**
 	 * Primary key of data model in database.
 	 */
@@ -98,7 +103,7 @@ function FaroModel() {
 		if (self.isNew) {
 			var jqXHR = $.ajax({ 
 				type: 'POST', 
-				url: self.url, 
+				url: self.rootUrl + self.url, 
 				data: ko.toJSON(self.koData),
 				contentType: 'text/plain'
 			});
@@ -108,7 +113,7 @@ function FaroModel() {
 		else if (self.isDirty) {
 			var jqXHR = $.ajax({
 				type: 'PUT',
-				url: self.url + '/' + self.key,
+				url: self.rootUrl + self.url + '/' + self.key,
 				data: self.json,
 				contentType: 'text/plain'
 			});
@@ -125,7 +130,7 @@ function FaroModel() {
 	self.load = function(id) {
 		var jqXHR = $.ajax({
 			type: 'GET',
-			url: self.url + '/' + id,
+			url: self.rootUrl + self.url + '/' + id,
 			contentType: 'text/plain',
 			dataType: 'json'
 		});
@@ -139,7 +144,7 @@ function FaroModel() {
 	self.remove = function() {
 		var jqXHR = $.ajax({
 			type: 'DELETE',
-			url: self.url + '/' + self.key
+			url: self.rootUrl + self.url + '/' + self.key
 		});
 		parseDone(jqXHR, self.removeDone);
 		parseFail(jqXHR, self.removeFail);
@@ -231,7 +236,7 @@ function User(data) {
 	 *                     Property Overrides
 	 ******************************************************************/
 
-	self.url = 'http://api.jibely.com/users';
+	self.url = '/users';
 	
 	/******************************************************************
 	 *                    Observable Properties
@@ -330,7 +335,7 @@ function Event(data) {
 	 *                     Property Overrides
 	 ******************************************************************/
 
-	self.url = 'http://api.jibely.com/events';
+	self.url = '/events';
 	
 	/******************************************************************
 	 *                    Observable Properties
@@ -363,7 +368,6 @@ function Event(data) {
 	 *                    Done and Fail Functions
 	 ******************************************************************/
 
-	// add properties created from save action to user
 	self.saveDone.push( function (data) { 
 		self.parentId(data.id);
 		self.id(data.id);
