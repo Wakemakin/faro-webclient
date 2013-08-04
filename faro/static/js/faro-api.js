@@ -43,7 +43,7 @@ function FaroModel() {
 	/**
 	 * KO json object.
 	 */
-	self.data = '';
+	self.koData = '';
 		
 	/**
 	 * Add call functions to arrays for server action
@@ -85,7 +85,7 @@ function FaroModel() {
 	 *                          Setup
 	 ******************************************************************/
 	
-	Initialize();
+	initialize();
 	
 	/******************************************************************
 	 *                      Public Methods
@@ -99,7 +99,7 @@ function FaroModel() {
 			var jqXHR = $.ajax({ 
 				type: 'POST', 
 				url: self.url, 
-				data: ko.toJSON(self.data),
+				data: ko.toJSON(self.koData),
 				contentType: 'text/plain'
 			});
 			parseDone(jqXHR, self.saveDone);
@@ -161,7 +161,7 @@ function FaroModel() {
 		}
 	}
 	
-	function Initialize() {
+	function initialize() {
 		self.isNew = true;
 		self.isDirty = true;
 	}
@@ -225,7 +225,7 @@ function User(data) {
 	 ******************************************************************/
 	
 	FaroModel.call(self); // Faro model inheritance
-	Initialize();
+	initialize();
 		
 	/******************************************************************
 	 *                     Property Overrides
@@ -245,21 +245,18 @@ function User(data) {
    	self.events = ko.observableArray([]);
 	
 	/******************************************************************
-	 *                      Observable Flag
-	 *
-	 * When these properties change, they flag the isDirty property so
-	 * that save() actually updates (PUT) the data.
-	 *                      
+	 *                     Property Subscriptions
 	 ******************************************************************/
     
-	self.data = ko.computed( function() { 
-		self.isDirty = true;
-		return {
-	    	username : self.userName, 
-	    	first_name : self.firstName,
-	    	last_name : self.lastName 
-		};
-	});
+   	self.userName.subscribe(makeDirty);
+    self.firstName.subscribe(makeDirty);
+    self.lastName.subscribe(makeDirty);
+    
+    self.koData = {
+		username : self.userName, 
+    	first_name : self.firstName,
+    	last_name : self.lastName 		
+    };
 	
 	/******************************************************************
 	 *                    Done and Fail Functions
@@ -297,7 +294,11 @@ function User(data) {
 		self.userName(data.display_name);
 	}
 	
-	function Initialize() {
+	function makeDirty() {
+		self.isDirty = true;
+	}
+	
+	function initialize() {
 		if (data === undefined)
 			data = {};
 	}
@@ -323,7 +324,7 @@ function Event(data) {
 	 ******************************************************************/
 	
 	FaroModel.call(self);  // Faro model inheritance
-	Initialize();
+	initialize();
 	
 	/******************************************************************
 	 *                     Property Overrides
@@ -345,21 +346,18 @@ function Event(data) {
 	self.owner = data.owner;
 	
 	/******************************************************************
-	 *                      Observable Flag
-	 *
-	 * When these properties change, they flag the isDirty property so
-	 * that save() method actually updates (PUT) the data.
-	 *                      
+	 *                     Property Subscriptions
 	 ******************************************************************/
     
-	self.data = ko.computed( function() { 
-		self.isDirty = true;
-		return {
-			name : self.name,
-			description : self.description,
-			owner_id : self.ownerId
-		};
-	});
+	self.name.subscribe(makeDirty);
+	self.description.subscribe(makeDirty);
+	self.ownerId.subscribe(makeDirty);
+	
+	self.koData = {
+		name : self.name,
+		description : self.description,
+		owner_id : self.ownerId
+	}
 	
 	/******************************************************************
 	 *                    Done and Fail Functions
@@ -397,7 +395,11 @@ function Event(data) {
 		self.key = self.id();
 	}
 	
-	function Initialize() {
+	function makeDirty() {
+		self.isDirty = true;
+	}
+	
+	function initialize() {
 		if (data === undefined)
 			data = {};
 	}
