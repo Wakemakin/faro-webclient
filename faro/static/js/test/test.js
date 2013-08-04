@@ -1,5 +1,11 @@
-module('User');
-user = new User();
+module('User', {
+	setup: function() {
+		user = new User();
+	},
+	teardown: function() {
+		user = null;
+	}
+});
 
 test( "Initialization", function() {
 	equal(user.isNew, true, "New flag [user.isNew] is true");
@@ -34,8 +40,14 @@ test( "Remove", function() {
 	ok(true, "Create");
 });
 
-module('Event');
-event = new Event();
+module('Event', {
+	setup: function() {
+		event = new Event();
+	},
+	teardown: function() {
+		event = null;
+	}
+});
 
 test( "Initialization", function() {
 	equal(event.isNew, true, "New flag [event.isNew] is true");
