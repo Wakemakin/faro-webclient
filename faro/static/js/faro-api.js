@@ -33,7 +33,7 @@ function FaroModel() {
 	/**
 	 * Primary key of data model in database.
 	 */
-	self.key = '';
+	self.key = undefined;
 	
 	/**
 	 * Data is new flag.
@@ -147,6 +147,7 @@ function FaroModel() {
 	 * Removes model from database.
 	 */
 	self.remove = function() {
+		console.log(self.rootUrl + self.url + '/' + self.key);
 		var jqXHR = $.ajax({
 			type: 'DELETE',
 			url: self.rootUrl + self.url + '/' + self.key
@@ -293,6 +294,7 @@ function User(data) {
 		self.userName(item.display_name);
 	   	self.firstName(item.first_name);
 	   	self.lastName(item.last_name);
+	   	self.key = self.id();
 	});	
 	
 	self.updateDone.push( function(data) {
@@ -307,7 +309,8 @@ function User(data) {
 		self.userName(undefined);
 	   	self.firstName(undefined);
 	   	self.lastName(undefined);
-	   	self.events.Clear();
+	   	self.events.removeAll();
+	   	self.key = self.id();
 	});	
 	
 	/******************************************************************

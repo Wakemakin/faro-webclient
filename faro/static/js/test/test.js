@@ -5,6 +5,7 @@ test( "Initialization Empty", function() {
 	equal(user.isNew, true, "New flag [user.isNew] is true");
 	equal(user.isDirty, true, "Dirty flag [user.isDirty] is true");
 	equal(user.isLoad, false, "Load flag [user.isLoad] is false");
+	equal(user.key, undefined, "Key [user.key] is undefined");
 	equal(user.url, "/users", "Url [user.url] is /users");
 	equal(user.rootUrl, "http://api.jibely.com", "Root url [user.rootUrl] is http://api.jibely.com");
 	equal(user.id(), undefined, "Id [user.id()] is undefined");
@@ -20,6 +21,7 @@ test( "Initialization w/ Values", function() {
 	equal(user.isNew, true, "New flag [user.isNew] is true");
 	equal(user.isDirty, true, "Dirty flag [user.isDirty] is true");
 	equal(user.isLoad, false, "Load flag [user.isLoad] is false");
+	equal(user.key, undefined, "Key [user.key] is undefined");
 	equal(user.url, "/users", "Url [user.url] is /users");
 	equal(user.rootUrl, "http://api.jibely.com", "Root url [user.rootUrl] is http://api.jibely.com");
 	equal(user.id(), undefined, "Id [user.id()] is undefined");
@@ -53,10 +55,11 @@ test( "Save", function() {
 	equal(user.isNew, false, "New flag [user.isNew] is false");
 	equal(user.isDirty, false, "Dirty flag [user.isDirty] is false");
 	equal(user.isLoad, false, "Load flag [user.isLoad] is false");
+	equal(user.key, "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Key [user.key] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
 	equal(user.url, "/users", "Url [user.url] is /users");
 	equal(user.rootUrl, "http://api.jibely.com", "Root url [user.rootUrl] is http://api.jibely.com");
-	equal(user.id().length, 36, "Id [user.id()] is 36 characters");
-	equal(user.date().length, 19, "Date [user.date()] is 19 characters");
+	equal(user.id(),  "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Id [user.id()] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
+	equal(user.date(), "2013-07-31 23:48:32", "Date [user.date()] is 2013-07-31 23:48:32");
 	equal(user.userName(), "TeStY", "User name [user.userName()] is TeStY");
 	equal(user.firstName(), "Tester", "Last name [user.userLast()] is Tester");
 	equal(user.lastName(), "Testa", "First name [user.firstName()] is Testa");
@@ -92,10 +95,11 @@ test( "Load By Id", function() {
 	equal(user.isNew, false, "New flag [user.isNew] is false");
 	equal(user.isDirty, false, "Dirty flag [user.isDirty] is false");
 	equal(user.isLoad, true, "Load flag [user.isLoad] is true");
+	equal(user.key, "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Key [user.key] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
 	equal(user.url, "/users", "Url [user.url] is /users");
 	equal(user.rootUrl, "http://api.jibely.com", "Root url [user.rootUrl] is http://api.jibely.com");
-	equal(user.id().length, 36, "Id [user.id()] is 36 characters");
-	equal(user.date().length, 19, "Date [user.date()] is 19 characters");
+	equal(user.id(),  "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Id [user.id()] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
+	equal(user.date(), "2013-07-31 23:48:32", "Date [user.date()] is 2013-07-31 23:48:32");
 	equal(user.userName(), "TeStY", "User name [user.userName()] is TeStY");
 	equal(user.firstName(), "Tester", "Last name [user.userLast()] is Tester");
 	equal(user.lastName(), "Testa", "First name [user.firstName()] is Testa");
@@ -127,10 +131,11 @@ test( "Load By Username", function() {
 	equal(user.isNew, false, "New flag [user.isNew] is false");
 	equal(user.isDirty, false, "Dirty flag [user.isDirty] is false");
 	equal(user.isLoad, true, "Load flag [user.isLoad] is true");
+	equal(user.key, "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Key [user.key] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
 	equal(user.url, "/users", "Url [user.url] is /users");
 	equal(user.rootUrl, "http://api.jibely.com", "Root url [user.rootUrl] is http://api.jibely.com");
-	equal(user.id().length, 36, "Id [user.id()] is 36 characters");
-	equal(user.date().length, 19, "Date [user.date()] is 19 characters");
+	equal(user.id(),  "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Id [user.id()] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
+	equal(user.date(), "2013-07-31 23:48:32", "Date [user.date()] is 2013-07-31 23:48:32");
 	equal(user.userName(), "TeStY", "User name [user.userName()] is TeStY");
 	equal(user.firstName(), "Tester", "Last name [user.userLast()] is Tester");
 	equal(user.lastName(), "Testa", "First name [user.firstName()] is Testa");
@@ -155,18 +160,17 @@ test( "Remove", function() {
 		"GET", "http://api.jibely.com/users/b5428ebe-fa3b-11e2-ad1a-bc764e04579c",
 		[200, { "Content-Type":"application/json" }, jsonStr]
 	);
-	server.respondWith(
-		"DELETE", "http://api.jibely.com/users/b5428ebe-fa3b-11e2-ad1a-bc764e04579c",
-		[204, { "Content-Type":"application/json" }, jsonStr]
-	);
+	server.respondWith("DELETE" , "http://api.jibely.com/users/b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "OK");
 	user = new User();
 	user.load("b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
+	server.respond();
 	user.remove();
 	server.respond();
 	server.restore();
 	equal(user.isNew, true, "New flag [user.isNew] is true");
 	equal(user.isDirty, true, "Dirty flag [user.isDirty] is true");
 	equal(user.isLoad, false, "Load flag [user.isLoad] is false");
+	equal(user.key, undefined, "Key [user.key] is undefined");
 	equal(user.url, "/users", "Url [user.url] is /users");
 	equal(user.rootUrl, "http://api.jibely.com", "Root url [user.rootUrl] is http://api.jibely.com");
 	equal(user.id(), undefined, "Id [user.id()] is undefined");
