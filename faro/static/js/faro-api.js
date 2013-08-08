@@ -39,6 +39,11 @@ function FaroModel() {
 	 * Data is new flag.
 	 */
 	self.isNew = '';
+	
+	/**
+	 * Data was loaded from DB flag.
+	 */
+	self.isLoad = '';
 
 	/**
 	 * Data has changed flag. 
@@ -169,6 +174,7 @@ function FaroModel() {
 	function initialize() {
 		self.isNew = true;
 		self.isDirty = true;
+		self.isLoad = false;
 	}
 	
 	/******************************************************************
@@ -178,6 +184,7 @@ function FaroModel() {
 	 self.saveDone.push( function(data, textStatus, jqXHR) {
 		 self.isNew = false;
 		 self.isDirty = false;
+		 self.isLoad = false;
 		 console.log("Save " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -186,7 +193,9 @@ function FaroModel() {
 	 });
 	 
 	 self.updateDone.push( function(data, textStatus, jqXHR) {
+		 self.isNew = false;
 		 self.isDirty = false;
+		 self.isLoad = false;
 		 console.log("Update " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -197,6 +206,7 @@ function FaroModel() {
 	 self.loadDone.push( function(data, textStatus, jqXHR) {
 		 self.isNew = false;
 		 self.isDirty = false;
+		 self.isLoad = true;
 		 console.log("Load " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -205,6 +215,9 @@ function FaroModel() {
 	 });
 	 
 	 self.removeDone.push( function(data, textStatus, jqXHR) {
+		 self.isNew = true;
+		 self.isDirty = true;
+		 self.isLoad = false;
 		 console.log("Remove " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -274,17 +287,27 @@ function User(data) {
 	});
 	
 	self.loadDone.push( function(data) {
-		self.id(data.id);
-		self.date(data.date_created);
-		self.userName(data.display_name);
-	   	self.firstName(data.first_name);
-	   	self.lastName(data.last_name);
+		item = data.object;
+		self.id(item.id);
+		self.date(item.date_created);
+		self.userName(item.display_name);
+	   	self.firstName(item.first_name);
+	   	self.lastName(item.last_name);
 	});	
 	
 	self.updateDone.push( function(data) {
 		self.userName(data.display_name);
 	   	self.firstName(data.first_name);
 	   	self.lastName(data.last_name);
+	});	
+	
+	self.removeDone.push( function() {
+		self.id(undefined);
+		self.date(undefined);
+		self.userName(undefined);
+	   	self.firstName(undefined);
+	   	self.lastName(undefined);
+	   	self.events.Clear();
 	});	
 	
 	/******************************************************************
@@ -300,7 +323,9 @@ function User(data) {
 	}
 	
 	function makeDirty() {
-		self.isDirty = true;
+		if (self.isLoad === false) {
+			self.isDirty = true;
+		}
 	}
 	
 	function initialize() {
