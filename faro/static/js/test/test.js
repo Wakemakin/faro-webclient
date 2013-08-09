@@ -109,12 +109,12 @@ test( "Update", function() {
 	server.respond();
 	user.firstName("TiTi");
 	user.lastName("TaTa");
-	equal(user.isNew, false, "Before save, new flag [user.isNew] is false");
-	equal(user.isDirty, true, "Before save, dirty flag [user.isDirty] is true");
+	equal(user.isNew, false, "Before update, new flag [user.isNew] is false");
+	equal(user.isDirty, true, "Before update, dirty flag [user.isDirty] is true");
 	user.save();
 	server.respond();
-	equal(user.isNew, false, "After save, new flag [user.isNew] is false");
-	equal(user.isDirty, false, "After save, dirty flag [user.isDirty] is false");
+	equal(user.isNew, false, "After update, new flag [user.isNew] is false");
+	equal(user.isDirty, false, "After update, dirty flag [user.isDirty] is false");
 	equal(user.key, "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Key [user.key] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
 	equal(user.url, "/users", "Url [user.url] is /users");
 	equal(user.rootUrl, "http://api.jibely.com", "Root url [user.rootUrl] is http://api.jibely.com");
