@@ -23,7 +23,7 @@ function FaroModel() {
 	/** 
 	 * Url of resource. 
 	 */
-	self.url = '';
+	self.url = undefined;
 	
 	/** 
 	 * Root url. 
@@ -36,19 +36,14 @@ function FaroModel() {
 	self.key = undefined;
 	
 	/**
-	 * Data is new flag.
-	 */
-	self.isNew = '';
-	
-	/**
 	 * Data has changed flag. 
 	 */
-	self.isDirty = '';
+	self.isDirty = undefined;
 	
 	/**
 	 * KO json object.
 	 */
-	self.koData = '';
+	self.koData = undefined;
 		
 	/**
 	 * Add call functions to arrays for server action
@@ -167,7 +162,6 @@ function FaroModel() {
 	}
 	
 	function initialize() {
-		self.isNew = true;
 		self.isDirty = true;
 	}
 	
@@ -176,7 +170,6 @@ function FaroModel() {
 	 ******************************************************************/
 	 
 	 self.saveDone.push( function(data, textStatus, jqXHR) {
-		 self.isNew = false;
 		 console.log("Save " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -193,7 +186,6 @@ function FaroModel() {
 	 });
 	 
 	 self.loadDone.push( function(data, textStatus, jqXHR) {
-		 self.isNew = false;
 		 console.log("Load " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -202,8 +194,6 @@ function FaroModel() {
 	 });
 	 
 	 self.removeDone.push( function(data, textStatus, jqXHR) {
-		 self.isNew = true;
-		 self.isDirty = true;
 		 console.log("Remove " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -252,6 +242,7 @@ function User(data) {
 	 *                     Property Subscriptions
 	 ******************************************************************/
     
+   	self.id.subscribe(updateKey);
    	self.userName.subscribe(makeDirty);
     self.firstName.subscribe(makeDirty);
     self.lastName.subscribe(makeDirty);
@@ -268,8 +259,7 @@ function User(data) {
 
 	self.saveDone.push( function (data) { 
 		self.id(data.id);
-		self.date(data.date_created);	
-		self.key = self.id();
+		self.date(data.date_created);
 		self.isDirty = false;
 	});
 	
@@ -280,7 +270,6 @@ function User(data) {
 		self.userName(item.display_name);
 	   	self.firstName(item.first_name);
 	   	self.lastName(item.last_name);
-	   	self.key = self.id();
 	   	self.isDirty = false;
 	});	
 	
@@ -298,16 +287,11 @@ function User(data) {
 	   	self.firstName(undefined);
 	   	self.lastName(undefined);
 	   	self.events.removeAll();
-	   	self.key = self.id();
 	});	
 	
 	/******************************************************************
 	 *                    Private Methods/Calls
 	 ******************************************************************/
-	
-	if (self.id() !== undefined) {
-		self.key = self.id();
-	}
 	
 	if (data.display_name !== undefined) {
 		self.userName(data.display_name);
@@ -315,6 +299,10 @@ function User(data) {
 	
 	function makeDirty() {
 		self.isDirty = true;
+	}
+	
+	function updateKey() {
+		self.key = self.id();
 	}
 	
 	function initialize() {
@@ -363,7 +351,6 @@ function Event(data) {
 	self.description = ko.observable(data.description);
 	self.id = ko.observable(data.id);
 	self.date = ko.observable(data.date_created);
-	self.owner = data.owner;
 	
 	/******************************************************************
 	 *                     Property Subscriptions
@@ -372,6 +359,7 @@ function Event(data) {
 	self.name.subscribe(makeDirty);
 	self.description.subscribe(makeDirty);
 	self.ownerId.subscribe(makeDirty);
+	self.id.subscribe(updateKey);
 	
 	self.koData = {
 		name : self.name,
@@ -384,46 +372,60 @@ function Event(data) {
 	 ******************************************************************/
 
 	self.saveDone.push( function (data) { 
-		self.parentId(data.id);
+		self.parentId(data.parent_id);
+		self.isTemplate(data.is_template);
 		self.id(data.id);
 		self.date(data.date_created);
-		self.key = self.id();
 		self.isDirty = false;
 	});
 	
 	self.loadDone.push( function(data) {
-		self.parentId(data.parent_id);
-		self.ownerId(data.owner_id);
-		self.isTemplate(data.is_template);
-		self.name(data.name);
-		self.description(data.description);
-		self.id(data.id);
-		self.date(data.date_created);
+		item = data.object;
+		self.parentId(item.parent_id);
+		self.ownerId(item.owner_id);
+		self.isTemplate(item.is_template);
+		self.name(item.name);
+		self.description(item.description);
+		self.id(item.id);
+		self.date(item.date_created);
 		self.isDirty = false;
 	});	
 	
 	self.updateDone.push( function(data) {
+		console.log(data);
 		self.name(data.name);
 		self.description(data.description);
 		self.ownerId(data.owner_id);
 		self.isDirty = false;
+	});	
+	
+	self.removeDone.push( function() {
+		self.parentId(undefined);
+		self.ownerId(undefined);
+		self.isTemplate(undefined);
+		self.name(undefined);
+		self.description(undefined);
+		self.id(undefined);
+		self.date(undefined);
+		self.isDirty = true;
 	});	
 	
 	/******************************************************************
 	 *                    Private Methods/Calls
 	 ******************************************************************/
 	
-	if (self.id() != undefined) {
-		self.key = self.id();
-	}
-	
 	function makeDirty() {
 		self.isDirty = true;
 	}
 	
+	function updateKey() {
+		self.key = self.id();
+	}
+	
 	function initialize() {
-		if (data === undefined)
+		if (data === undefined) {
 			data = {};
+		}
 	}
 }
 // Faro model inheritance
