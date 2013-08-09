@@ -35,11 +35,11 @@ module('User', {
 			[201, { "Content-Type":"application/json" }, JSON.stringify(jsonPOST)]
 		);
 		server.respondWith(
-			"GET", "http://api.jibely.com/users/b5428ebe-fa3b-11e2-ad1a-bc764e04579c",
+			"GET", "http://api.jibely.com/users/testy",
 			[200, { "Content-Type":"application/json" }, JSON.stringify(jsonGET)]
 		);
 		server.respondWith(
-			"GET", "http://api.jibely.com/users/testy",
+			"GET", "http://api.jibely.com/users/b5428ebe-fa3b-11e2-ad1a-bc764e04579c",
 			[200, { "Content-Type":"application/json" }, JSON.stringify(jsonGET)]
 		);
 		server.respondWith(
@@ -66,8 +66,8 @@ test( "Initialization Empty", function() {
 	equal(user.id(), undefined, "Id [user.id()] is undefined");
 	equal(user.date(), undefined, "Date [user.date()] is undefined");
 	equal(user.userName(), undefined, "User name [user.userName()] is undefined");
-	equal(user.firstName(), undefined, "Last name [user.userLast()] is undefined");
-	equal(user.lastName(), undefined, "First name [user.firstName()] is undefined");
+	equal(user.firstName(), undefined, "First name [user.firstName()] is undefined");
+	equal(user.lastName(), undefined, "Last name [user.lastName()] is undefined");
 	equal(user.events().length, 0, "NO user events [user.events()] exist");
 });
 
@@ -81,8 +81,8 @@ test( "Initialization w/ Values", function() {
 	equal(user.id(), undefined, "Id [user.id()] is undefined");
 	equal(user.date(), undefined, "Date [user.date()] is undefined");
 	equal(user.userName(), "Testy", "User name [user.userName()] is Testy");
-	equal(user.firstName(), "Testy", "Last name [user.userLast()] is Testy");
-	equal(user.lastName(), "Testy", "First name [user.firstName()] is Testy");
+	equal(user.firstName(), "Testy", "First name [user.firstName()] is Testy");
+	equal(user.lastName(), "Testy", "Last name [user.lastName()] is Testy");
 	equal(user.events().length, 0, "NO user events [user.events()] exist");
 });
 
@@ -98,8 +98,8 @@ test( "Save", function() {
 	equal(user.id(),  "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Id [user.id()] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
 	equal(user.date(), "2013-07-31 23:48:32", "Date [user.date()] is 2013-07-31 23:48:32");
 	equal(user.userName(), "TeStY", "User name [user.userName()] is TeStY");
-	equal(user.firstName(), "Tester", "Last name [user.userLast()] is Tester");
-	equal(user.lastName(), "Testa", "First name [user.firstName()] is Testa");
+	equal(user.firstName(), "Tester", "First name [user.firstName()] is Tester");
+	equal(user.lastName(), "Testa", "Last name [user.lastName()] is Testa");
 	equal(user.events().length, 0, "NO user events [user.events()] exist");
 });
 
@@ -121,8 +121,8 @@ test( "Update", function() {
 	equal(user.id(),  "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Id [user.id()] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
 	equal(user.date(), "2013-07-31 23:48:32", "Date [user.date()] is 2013-07-31 23:48:32");
 	equal(user.userName(), "TeStY", "User name [user.userName()] is TeStY");
-	equal(user.firstName(), "TiTi", "Last name [user.userLast()] is TiTi");
-	equal(user.lastName(), "TaTa", "First name [user.firstName()] is TaTa");
+	equal(user.firstName(), "TiTi", "First name [user.firstName()] is TiTi");
+	equal(user.lastName(), "TaTa", "Last name [user.lastName()] is TaTa");
 	equal(user.events().length, 0, "NO user events [user.events()] exist");
 });
 
@@ -138,8 +138,8 @@ test( "Load By Id", function() {
 	equal(user.id(),  "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Id [user.id()] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
 	equal(user.date(), "2013-07-31 23:48:32", "Date [user.date()] is 2013-07-31 23:48:32");
 	equal(user.userName(), "TeStY", "User name [user.userName()] is TeStY");
-	equal(user.firstName(), "Tester", "Last name [user.userLast()] is Tester");
-	equal(user.lastName(), "Testa", "First name [user.firstName()] is Testa");
+	equal(user.firstName(), "Tester", "First name [user.firstName()] is Tester");
+	equal(user.lastName(), "Testa", "Last name [user.lastName()] is Testa");
 	equal(user.events().length, 0, "NO user events [user.events()] exist");
 });
 
@@ -155,8 +155,8 @@ test( "Load By Username", function() {
 	equal(user.id(),  "b5428ebe-fa3b-11e2-ad1a-bc764e04579c", "Id [user.id()] is b5428ebe-fa3b-11e2-ad1a-bc764e04579c");
 	equal(user.date(), "2013-07-31 23:48:32", "Date [user.date()] is 2013-07-31 23:48:32");
 	equal(user.userName(), "TeStY", "User name [user.userName()] is TeStY");
-	equal(user.firstName(), "Tester", "Last name [user.userLast()] is Tester");
-	equal(user.lastName(), "Testa", "First name [user.firstName()] is Testa");
+	equal(user.firstName(), "Tester", "First name [user.firstName()] is Tester");
+	equal(user.lastName(), "Testa", "Last name [user.lastName()] is Testa");
 	equal(user.events().length, 0, "NO user events [user.events()] exist");
 });
 
@@ -174,8 +174,8 @@ test( "Remove", function() {
 	equal(user.id(), undefined, "Id [user.id()] is undefined");
 	equal(user.date(), undefined, "Date [user.date()] is undefined");
 	equal(user.userName(), undefined, "User name [user.userName()] is undefined");
-	equal(user.firstName(), undefined, "Last name [user.userLast()] is undefined");
-	equal(user.lastName(), undefined, "First name [user.firstName()] is undefined");
+	equal(user.firstName(), undefined, "First name [user.firstName()] is undefined");
+	equal(user.lastName(), undefined, "Last name [user.lastName()] is undefined");
 	equal(user.events().length, 0, "NO user events [user.events()] exist");
 });
 //
