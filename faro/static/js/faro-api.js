@@ -392,7 +392,6 @@ function Event(data) {
 	});	
 	
 	self.updateDone.push( function(data) {
-		console.log(data);
 		self.name(data.name);
 		self.description(data.description);
 		self.ownerId(data.owner_id);
