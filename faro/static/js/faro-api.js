@@ -41,11 +41,6 @@ function FaroModel() {
 	self.isNew = '';
 	
 	/**
-	 * Data was loaded from DB flag.
-	 */
-	self.isLoad = '';
-
-	/**
 	 * Data has changed flag. 
 	 */
 	self.isDirty = '';
@@ -105,7 +100,7 @@ function FaroModel() {
 	 * Saves model into database.
 	 */
 	self.save = function() {
-		if (self.isNew) {
+		if (self.id() === undefined) {
 			var jqXHR = $.ajax({ 
 				type: 'POST', 
 				url: self.rootUrl + self.url, 
@@ -174,7 +169,6 @@ function FaroModel() {
 	function initialize() {
 		self.isNew = true;
 		self.isDirty = true;
-		self.isLoad = false;
 	}
 	
 	/******************************************************************
@@ -183,8 +177,6 @@ function FaroModel() {
 	 
 	 self.saveDone.push( function(data, textStatus, jqXHR) {
 		 self.isNew = false;
-		 self.isDirty = false;
-		 self.isLoad = false;
 		 console.log("Save " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -193,9 +185,6 @@ function FaroModel() {
 	 });
 	 
 	 self.updateDone.push( function(data, textStatus, jqXHR) {
-		 self.isNew = false;
-		 self.isDirty = false;
-		 self.isLoad = false;
 		 console.log("Update " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -205,8 +194,6 @@ function FaroModel() {
 	 
 	 self.loadDone.push( function(data, textStatus, jqXHR) {
 		 self.isNew = false;
-		 self.isDirty = false;
-		 self.isLoad = true;
 		 console.log("Load " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -217,7 +204,6 @@ function FaroModel() {
 	 self.removeDone.push( function(data, textStatus, jqXHR) {
 		 self.isNew = true;
 		 self.isDirty = true;
-		 self.isLoad = false;
 		 console.log("Remove " + textStatus + " (code " + jqXHR.status + ")");
 	 });
 	 
@@ -277,13 +263,14 @@ function User(data) {
     };
 	
 	/******************************************************************
-	 *                    Done and Fail Functions
+	 *                  Callback (Done & Fail) Functions
 	 ******************************************************************/
 
 	self.saveDone.push( function (data) { 
 		self.id(data.id);
 		self.date(data.date_created);	
 		self.key = self.id();
+		self.isDirty = false;
 	});
 	
 	self.loadDone.push( function(data) {
@@ -294,12 +281,14 @@ function User(data) {
 	   	self.firstName(item.first_name);
 	   	self.lastName(item.last_name);
 	   	self.key = self.id();
+	   	self.isDirty = false;
 	});	
 	
 	self.updateDone.push( function(data) {
 		self.userName(data.display_name);
 	   	self.firstName(data.first_name);
 	   	self.lastName(data.last_name);
+	   	self.isDirty = false;
 	});	
 	
 	self.removeDone.push( function() {
@@ -325,14 +314,13 @@ function User(data) {
 	}
 	
 	function makeDirty() {
-		if (self.isLoad === false) {
-			self.isDirty = true;
-		}
+		self.isDirty = true;
 	}
 	
 	function initialize() {
-		if (data === undefined)
+		if (data === undefined) {
 			data = {};
+		}
 	}
 }
 // Faro model inheritance
@@ -392,7 +380,7 @@ function Event(data) {
 	}
 	
 	/******************************************************************
-	 *                    Done and Fail Functions
+	 *                  Callback (Done & Fail) Functions
 	 ******************************************************************/
 
 	self.saveDone.push( function (data) { 
@@ -400,6 +388,7 @@ function Event(data) {
 		self.id(data.id);
 		self.date(data.date_created);
 		self.key = self.id();
+		self.isDirty = false;
 	});
 	
 	self.loadDone.push( function(data) {
@@ -410,12 +399,14 @@ function Event(data) {
 		self.description(data.description);
 		self.id(data.id);
 		self.date(data.date_created);
+		self.isDirty = false;
 	});	
 	
 	self.updateDone.push( function(data) {
 		self.name(data.name);
 		self.description(data.description);
 		self.ownerId(data.owner_id);
+		self.isDirty = false;
 	});	
 	
 	/******************************************************************
