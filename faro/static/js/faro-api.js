@@ -147,7 +147,6 @@ function FaroModel() {
 	 * Removes model from database.
 	 */
 	self.remove = function() {
-		console.log(self.rootUrl + self.url + '/' + self.key);
 		var jqXHR = $.ajax({
 			type: 'DELETE',
 			url: self.rootUrl + self.url + '/' + self.key
