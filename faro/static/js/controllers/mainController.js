@@ -1,3 +1,4 @@
 app.controller("MainController", function($scope){
-	$scope.test = "I Work!!!";
+	$scope.test = "I Work!";
 });
+
